@@ -1,0 +1,24 @@
+{% extends "sublog_base.html" %}
+
+{% block title %}new article{% endblock %}
+
+{% block content %}
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<h2>Create a new article:</h2>
+<form action="{% url 'new-article' %}" method="POST">
+    {% csrf_token %}
+    <div>
+        <label for="title">Title <span>*</span></label>
+        <input id="title" name="title" type="text" maxlength="500" required="required"/>
+    </div>
+
+    <div>
+        <label for="content">Content <span>*</span> </label>
+        <textarea id="content" class="new-article" name="content" required="required"></textarea>
+    </div>
+
+    <input type="submit" value="Post article"/>
+</form>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends "sublog_base.html" %}
+
+{% block title %}{{ article.title }}{% endblock %}
+
+{% block content %}
+
+{% include 'article_detail.html' with long_version=True %}
+<div>
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+    <form class="add-comment" action="{% url 'comment' article.id %}" method="POST">
+        {% csrf_token %}
+        <div>
+            <label for="name">Name <span>*</span></label>
+            <input id="name" name="name" type="text" maxlength="50" required="required"/>
+        </div>
+
+        <div>
+            <label for="email">Email <span>*</span> </label>
+            <input id="email" name="email" type="email" required="required"/>
+        </div>
+
+        <div>
+            <label for="title">Title </label>
+            <input id="title" name="title" type="text"/>
+        </div>
+
+        <div>
+            <textarea id="content" class="new-comment" name="content" required="required"></textarea>
+        </div>
+
+        <input type="submit" value="Post comment"/>
+    </form>
+</div>
+<div class="comment-section">
+    {% if article.comments_count %}
+        <h3>Comments:</h3>
+    {% else %}
+        <h4>No comments yet</h4>
+    {% endif %}
+
+    {% for comment in article.sorted_comments %}
+    <div class="comment">
+        <h4>{{ comment.title | default:'-- no title --' }}</h4>
+
+        <p>{{ comment.user_name }} &nbsp; {{ comment.user_email }}</p>
+
+        <p>Published: {{ comment.pub_date }}</p>
+
+        <div class="comment-content">{{ comment.content }}</div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
