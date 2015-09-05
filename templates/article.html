@@ -6,9 +6,9 @@
 
 {% include 'article_detail.html' with long_version=True %}
 <div>
-    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-
     <form class="add-comment" action="{% url 'comment' article.id %}" method="POST">
+        <h3>Post your comment:</h3>
+        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
         {% csrf_token %}
         <div>
             <label for="name">Name <span>*</span></label>
@@ -52,3 +52,4 @@
     {% endfor %}
 </div>
 {% endblock %}
+

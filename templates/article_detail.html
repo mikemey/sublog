@@ -2,16 +2,16 @@
     <h2>{{ article.title }}</h2>
 
     <p>Published: {{ article.pub_date }}</p>
-
     <div class="article-content">
-        {% if long_version %}
+        {% if long_version or article.content|wordcount < 60 %}
             {{ article.content }}
         {% else %}
-            {{ article.content | truncatechars:500}}
+            {{ article.content | truncatewords_html:60 }}
         {% endif %}
     </div>
 
     {% if not long_version %}
-    <a class="read-more" href="{% url 'article' article.id %}">read more...</a>
+      <a class="read-more" href="{% url 'article' article.id %}">read more...</a>
     {% endif %}
 </div>
+
