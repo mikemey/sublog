@@ -4,6 +4,13 @@ body {
   width: 65%;
 }
 
+@media ( max-width : 640px) {
+	body {
+	  width: 100%;
+	  margin: 3px;
+	}
+}
+
 header {
   background-color: #B3F9B2;
   color: #335555;
