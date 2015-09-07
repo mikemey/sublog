@@ -18,7 +18,7 @@ class Article(models.Model):
 
 class ArticleComment(models.Model):
     article = models.ForeignKey(Article, related_name='comments')
-    title = models.CharField(default="", max_length=500)
+    title = models.CharField(default="", max_length=500, null=True, blank=True)
     user_name = models.CharField(max_length=50)
     user_email = models.EmailField()
     pub_date = models.DateTimeField('published', default=timezone.now)
