@@ -6,7 +6,7 @@
 
 {% include 'article_detail.html' with long_version=True %}
 <div>
-    <form class="add-comment" action="{% url 'comment' article.id %}" method="POST">
+    <form action="{% url 'comment' article.id %}" method="POST">
         <h3>Post your comment:</h3>
         {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
         {% csrf_token %}
@@ -26,13 +26,13 @@
         </div>
 
         <div>
-            <textarea id="content" class="new-comment" name="content" required="required"></textarea>
+            <textarea id="content" name="content" required="required"></textarea>
         </div>
 
         <input type="submit" value="Post comment"/>
     </form>
 </div>
-<div class="comment-section">
+<div>
     {% if article.comments_count %}
         <h3>Comments:</h3>
     {% else %}
@@ -40,14 +40,14 @@
     {% endif %}
 
     {% for comment in article.sorted_comments %}
-    <div class="comment">
+    <div>
         <h4>{{ comment.title | default:'-- no title --' }}</h4>
 
         <p>{{ comment.user_name }} &nbsp; {{ comment.user_email }}</p>
 
         <p>Published: {{ comment.pub_date }}</p>
 
-        <div class="comment-content">{{ comment.content }}</div>
+        <div>{{ comment.content }}</div>
     </div>
     {% endfor %}
 </div>

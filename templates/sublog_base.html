@@ -1,31 +1,37 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
     <title>suBlog - {% block title %}{% endblock %}</title>
 
     {% load staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static 'sublog.css' %}"/>
     <link rel="shortcut icon" href="{% static 'favicon.ico' %}"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css">
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </head>
 
 <body>
-<header>
-    <h1><i class="fa fa-heartbeat fa-lg"></i> not immune at all</h1>
-</header>
+<a href="/">
+    <div class="jumbotron">
+        <h1><i class="fa fa-heartbeat"></i> not immune at all</h1>
+    </div>
+</a>
 
-<div class="toc">
-    {% include 'toc_entry.html' with name='index' label='Home' %}
-    {% include 'toc_entry.html' with name='new-article' label='New Article' %}
-    <span><a href="/contact">
-        Contact </a></span>
-</div>
-
-<div id="container">
-    {% block content %}{% endblock %}
-</div>
-<div class="footer">
-    {% include "footer.html" %}
+<div class="container-fluid">
+    <div class="row">
+        {% include "navbar.html" %}
+    </div>
+    <div class="row">
+        {% block content %}{% endblock %}
+    </div>
+    <div class="row">
+        {% include "footer.html" %}
+    </div>
 </div>
 </body>
 </html>

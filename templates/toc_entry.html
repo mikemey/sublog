@@ -1,4 +1,8 @@
 {% url name as anchor_url %}
-<span class="{% if request.path == anchor_url %}current{% endif %}">
-    <a href="{{ anchor_url }}"> {{ label }} </a>
-</span>
+<li class="{% if anchor_url == request.path %}active{% endif %} ">
+    <a href="{{ anchor_url }}">{{ label }}
+        {% if anchor_url == request.path %}
+        <span class="sr-only">(current)</span>
+        {% endif %}
+    </a>
+</li>
