@@ -1,0 +1,4 @@
+{% url name as anchor_url %}
+<span class="{% if request.path == anchor_url %}current{% endif %}">
+    <a href="{{ anchor_url }}"> {{ label }} </a>
+</span>

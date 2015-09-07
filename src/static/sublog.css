@@ -12,36 +12,46 @@ body {
 }
 
 header {
-  background-color: #B3F9B2;
+  background-color: #b3f9b2;
   color: #335555;
-  padding: 1px 1px;
-  height: 65px;
-  text-align: center;
   display: table;
   width: 100%;
 }
 
 header h1 {
-  margin: 10px 0px;
-}
-
-.toc {
-  background-color: #335555;
-}
-
-img.logo {
-  vertical-align: bottom;
-  margin: auto 0px;
+  margin: 15px auto;
+  padding: 0 40px;
 }
 
 div.toc {
-  padding: 4px 0px;
+  background-color: #335555;
+  display: flex;
 }
+
 .toc a {
 	text-decoration: none;
 	color: #ddeeee;
-	margin-left: 30px;
-	margin-right: 10px;
+}
+
+.toc .current a {
+  color: #335555;
+}
+
+.toc span {
+  padding: 10px 20px;
+}
+.toc .current {
+  background-color: #ddeeee;
+}
+
+div.footer {
+  padding: 5px 0px 10px 10px;
+  text-align: right;
+}
+
+.footer img {
+  vertical-align: bottom;
+  margin-left: 5px;
 }
 
 .article {
