@@ -1,13 +1,9 @@
 import re
 
 from django.core.urlresolvers import reverse
-
 from django.http.response import HttpResponseRedirect
-
 from django.shortcuts import render, get_object_or_404
-
 from django.db import transaction
-
 from django.views import generic
 
 from src import ARTICLES_VISIBLE
@@ -33,7 +29,9 @@ class CreateArticleView(generic.CreateView):
     model = Article
     template_name = 'new_article.html'
     fields = ['title', 'content']
-    success_url = '/'
+
+    def get_success_url(self):
+        return reverse('article', args=(self.object.id,))
 
 
 def comment(request, article_id):

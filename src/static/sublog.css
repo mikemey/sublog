@@ -3,6 +3,10 @@ html {
   margin: 0 auto;
 }
 
+div.mobile-spacer {
+  margin-bottom: 10px;
+}
+
 @media ( max-width : 600px) {
   html {
     width: 100%;
@@ -40,6 +44,15 @@ a.navbar-brand {
 
 .navbar-brand img {
   max-height: 100%;
+}
+
+div.footer-row {
+  text-align: right;
+}
+
+.footer-row img {
+  vertical-align: bottom;
+  height: 40px;
 }
 
 div.panel-body {
