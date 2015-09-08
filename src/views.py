@@ -1,3 +1,5 @@
+import re
+
 from django.core.urlresolvers import reverse
 
 from django.http.response import HttpResponseRedirect
@@ -73,7 +75,7 @@ def parse_comment_post(art, post_data):
         article=art,
         user_name=name,
         user_email=email,
-        content=content,
+        content=(clean_content(content)),
         title=title
     )
     return CommentResult(art_comment)
@@ -89,6 +91,14 @@ def get_post_field(post_data, param, missing, collected, mandatory=True):
 
     missing.append(param)
     return None
+
+
+single_newline = re.compile(r'([^\n])\n([^\n])')
+single_newline_repl = r'\1\n\n\2'
+
+
+def clean_content(content):
+    return single_newline.sub(single_newline_repl, content)
 
 
 class CommentResult:
