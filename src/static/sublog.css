@@ -7,10 +7,15 @@ html {
   html {
     width: 100%;
   }
+
+  div.mobile-spacer {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
 }
 
-body {
-  color: #335555 !important;
+.default-text-color {
+  color: #335555;
 }
 
 a:hover {
@@ -28,10 +33,24 @@ div.jumbotron {
 nav.navbar {
   border-top: none;
 }
+
 a.navbar-brand {
   padding: 0px;
 }
 
 .navbar-brand img {
   max-height: 100%;
+}
+
+div.panel-body {
+  text-align: justify;
+  word-wrap: break-word;
+}
+
+.panel-body code {
+  color: black;
+  background-color: #c0d0d0;
+  border-radius: 4px;
+  font-size: 90%;
+  padding: 4px 6px;
 }

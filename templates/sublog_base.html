@@ -15,23 +15,19 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </head>
 
-<body>
-<a href="/">
-    <div class="jumbotron">
-        <h1><i class="fa fa-heartbeat"></i> not immune at all</h1>
-    </div>
-</a>
+<body class="default-text-color">
 
-<div class="container-fluid">
-    <div class="row">
-        {% include "navbar.html" %}
-    </div>
-    <div class="row">
-        {% block content %}{% endblock %}
-    </div>
-    <div class="row">
-        {% include "footer.html" %}
+{% include "partials/header.html" %}
+
+<div class="mobile-spacer">
+    <div class="container-fluid">
+        <div class="row">
+            {% block content %}{% endblock %}
+        </div>
     </div>
 </div>
+
+{% include "partials/footer.html" %}
+
 </body>
 </html>

@@ -4,52 +4,65 @@
 
 {% block content %}
 
-{% include 'article_detail.html' with long_version=True %}
-<div>
-    <form action="{% url 'comment' article.id %}" method="POST">
-        <h3>Post your comment:</h3>
-        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-        {% csrf_token %}
-        <div>
-            <label for="name">Name <span>*</span></label>
-            <input id="name" name="name" type="text" maxlength="50" required="required"/>
+{% include 'partials/article_detail.html' with long_version=True %}
+
+<a id="new-comment"></a>
+<form action="{% url 'comment' article.id %}" class="form-horizontal" method="POST">
+    {% csrf_token %}
+
+    <div class="form-group">
+
+        <div class="col-sm-offset-1 col-sm-8">
+            <h3>Post your comment:</h3>
         </div>
 
-        <div>
-            <label for="email">Email <span>*</span> </label>
-            <input id="email" name="email" type="email" required="required"/>
-        </div>
-
-        <div>
-            <label for="title">Title </label>
-            <input id="title" name="title" type="text"/>
-        </div>
-
-        <div>
-            <textarea id="content" name="content" required="required"></textarea>
-        </div>
-
-        <input type="submit" value="Post comment"/>
-    </form>
-</div>
-<div>
-    {% if article.comments_count %}
-        <h3>Comments:</h3>
-    {% else %}
-        <h4>No comments yet</h4>
-    {% endif %}
-
-    {% for comment in article.sorted_comments %}
-    <div>
-        <h4>{{ comment.title | default:'-- no title --' }}</h4>
-
-        <p>{{ comment.user_name }} &nbsp; {{ comment.user_email }}</p>
-
-        <p>Published: {{ comment.pub_date }}</p>
-
-        <div>{{ comment.content }}</div>
+        {% if error_message %}
+        <div class="alert alert-danger col-sm-offset-2 col-sm-8" role="alert">{{ error_message }}</div>
+        <script type="text/javascript"> $(function() { window.location.hash="new-comment"; }); </script>
+        {% endif %}
     </div>
-    {% endfor %}
-</div>
-{% endblock %}
 
+    <div class="form-group">
+        <label for="title" class="col-sm-2 control-label">Title </label>
+
+        <div class="col-sm-8">
+            <input id="title" class="form-control" placeholder="comment title"
+                   value="{{ form_data.title }}" name="title" type="text" maxlength="50"/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="name" class="col-sm-2 control-label">Name <span>*</span></label>
+
+        <div class="col-sm-8">
+            <input id="name" class="form-control" placeholder="your name"
+                   value="{{ form_data.name }}" name="name" type="text" maxlength="50" required="required"/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="email" class="col-sm-2 control-label">Email <span>*</span></label>
+        <div class="col-sm-8">
+            <input id="email" class="form-control" placeholder="your email"
+                   value="{{ form_data.email }}" name="email" type="email" required="required"/>
+            <p class="small help-block">Your email address will not be made public</p>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-8">
+                <textarea id="content" class="form-control" placeholder="your comment"
+                          name="content" rows="10">{{ form_data.content }}</textarea>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-8">
+            <button type="submit" class="btn btn-default">Post comment</button>
+        </div>
+    </div>
+</form>
+
+{% include 'partials/comment_list.html' with long_version=True %}
+
+{% endblock %}
