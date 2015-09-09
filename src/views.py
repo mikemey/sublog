@@ -1,6 +1,7 @@
 import re
 
 from django.core.urlresolvers import reverse
+from django.http import HttpResponse
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.db import transaction
@@ -32,6 +33,10 @@ class CreateArticleView(generic.CreateView):
 
     def get_success_url(self):
         return reverse('article', args=(self.object.id,))
+
+
+def health_check(request):
+    return HttpResponse("{ 'status': 'ok' }", content_type="application/json")
 
 
 def comment(request, article_id):
