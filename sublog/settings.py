@@ -121,5 +121,5 @@ LOGGING = {
     }
 }
 
-logging.addLevelName(logging.WARNING, "WARN")
+logging.addLevelName(logging.WARNING, 'WARN')
 logging.config.dictConfig(LOGGING)

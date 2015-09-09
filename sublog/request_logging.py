@@ -32,7 +32,7 @@ class RequestLoggingMiddleware(object):
 
         self.log_message(method, path, status,
                          time.microseconds / 1000,
-                         request.META['REMOTE_ADDR'],
+                         request.META['HTTP_X_FORWARDED_FOR'],
                          simple_user_agent(request),
                          post_data_from(request))
         return response
