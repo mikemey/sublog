@@ -15,10 +15,10 @@ Including another URL conf:
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from django.views.generic.simple import direct_to_template
+from django.views.generic.base import TemplateView
 
 urlpatterns = [
-	url(r'^robots\.txt$', direct_to_template, { 'template': 'robots.txt', 'mimetype': 'text/plain'}),
+    url(r'^robots\.txt$', TemplateView.as_view(template_name='robots.txt', content_type='text/plain')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'', include('src.urls'))
 ]
