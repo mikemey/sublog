@@ -36,7 +36,7 @@ class CreateArticleView(generic.CreateView):
 
 
 def health_check(request):
-    return HttpResponse("{ 'status': 'ok' }", content_type="application/json")
+    return HttpResponse("""{ "status": "ok" }""", content_type="application/json")
 
 
 def comment(request, article_id):
