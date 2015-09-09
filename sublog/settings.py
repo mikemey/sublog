@@ -123,6 +123,3 @@ LOGGING = {
 
 logging.addLevelName(logging.WARNING, 'WARN')
 logging.config.dictConfig(LOGGING)
-
-logging.getLogger('sublog').info('----------------------')
-logging.getLogger('sublog').info('server started.')
