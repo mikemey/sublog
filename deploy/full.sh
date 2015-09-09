@@ -39,8 +39,11 @@ fi
 log "clean up and deploy static files..."
 if [ "$1" == "-f" ]; then
   log "deleting files in static files folder [$WEB_DIR/]..."
-  rm -r $WEB_DIR/*
+  cd $WEB_DIR
+  ls | grep -v 'ghost' | xargs rm -r
+  cd $SUBLOG_DIR
 fi
+
 python manage.py collectstatic --noinput >> /dev/null
 if [ $? -ne 0 ]; then
   error_exit "collecting static files failed!"
