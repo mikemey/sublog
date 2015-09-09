@@ -32,7 +32,7 @@ class RequestLoggingMiddleware(object):
 
         self.log_message(method, path, status,
                          time.microseconds / 1000,
-                         request.META['HTTP_X_FORWARDED_FOR'],
+                         client_ip(request),
                          simple_user_agent(request),
                          post_data_from(request))
         return response
@@ -46,6 +46,12 @@ def post_data_from(request):
 
     return post_data
 
+def client_ip(request):
+    ip_addr = request.META.get('HTTP_X_FORWARDED_FOR', UNKNOWN_STRING)
+    if ip_addr is UNKNOWN_STRING:
+        ip_addr = request.META.get('REMOTE_ADDR', UNKNOWN_STRING)
+
+    return ip_addr
 
 def simple_user_agent(request):
     full_user_agent = request.META.get('HTTP_USER_AGENT', UNKNOWN_STRING)
