@@ -38,9 +38,7 @@ def compare_contents(test, expected, actual):
 
 
 def post_article(client, title, content, follow=True):
-    return client.post('/article/',
-                       data={'title': title, 'content': content},
-                       follow=follow)
+    return client.post('/article/', data={'title': title, 'content': content}, follow=follow)
 
 
 class ViewTests(TestCase):
@@ -139,9 +137,7 @@ class CommentsTests(TestCase):
 
 class PreviewMarkdownTests(TestCase):
     def markdown_response(self, post_data=None):
-        response = self.client.post('/markdown/',
-                                    data=post_data,
-                                    content_type='text/markdown')
+        response = self.client.post('/markdown/', data=post_data, content_type='text/markdown')
         self.assertEquals(200, response.status_code)
         self.assertEquals('text/html', response['Content-Type'])
         return response.content

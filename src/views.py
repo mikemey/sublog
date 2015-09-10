@@ -36,18 +36,23 @@ class ArticleView(generic.DetailView):
     template_name = 'article.html'
 
 
-def post_article(request):
-    parsed_post = parse_article_post(request.POST)
+class CreateArticleView(generic.CreateView):
+    model = Article
+    template_name = 'new_article.html'
+    fields = ['title', 'content']
 
-    if parsed_post.error_message:
-        return render(request, 'new_article.html', {
-            'form_data': parsed_post.form_data,
-            'error_message': parsed_post.error_message
-        })
+    def post(self, request, *args, **kwargs):
+        parsed_post = parse_article_post(request.POST)
 
-    art = parsed_post.result
-    art.save()
-    return HttpResponseRedirect(reverse('article', args=(art.id,)))
+        if parsed_post.error_message:
+            return render(request, 'new_article.html', {
+                'form_data': parsed_post.form_data,
+                'error_message': parsed_post.error_message
+            })
+
+        art = parsed_post.result
+        art.save()
+        return HttpResponseRedirect(reverse('article', args=(art.id,)))
 
 
 def health_check(request):

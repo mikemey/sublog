@@ -1,18 +1,19 @@
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 import logging.config
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 't3oc2%b_5+_zs_ir(6&eivsfvj@6w^@%ag=f5-uji(w708ob(x'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-
+SECRET_KEY = os.environ['SECRET_KEY']
 ALLOWED_HOSTS = ['*']
 
-# Application definition
+DEBUG = True
+
+STATIC_URL = '/static/'
+STATIC_ROOT = '/share/Web/static'
+
+WSGI_APPLICATION = 'sublog.wsgi.application'
+ROOT_URLCONF = 'sublog.urls'
+
 INSTALLED_APPS = (
     'src',
     'markupfield',
@@ -35,8 +36,6 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.security.SecurityMiddleware',
 )
 
-ROOT_URLCONF = 'sublog.urls'
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -53,20 +52,12 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'sublog.wsgi.application'
-
-# Database
-# https://docs.djangoproject.com/en/1.8/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
-# Internationalization
-# https://docs.djangoproject.com/en/1.8/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'Europe/London'
@@ -75,16 +66,7 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.8/howto/static-files/
-
-STATIC_URL = '/static/'
-STATIC_ROOT = '/share/Web/static'
-
 LOGGING_CONFIG = None
-# from django.conf import global_settings
-#
-# global_settings.LOGGING_CONFIG = None
 
 LOGGING = {
     'version': 1,
@@ -115,7 +97,7 @@ LOGGING = {
         },
         'django.request': {
             'handlers': ['file'],
-            'level': 'INFO',
+            'level': 'ERROR',
             'propagate': False
         }
     }
