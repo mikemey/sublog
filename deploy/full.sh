@@ -14,12 +14,17 @@ function log {
   echo "=== deploy ==> $1"
 }
 
-cd $SUBLOG_DIR
+function check_env {
+  echo "$1--${1}--${!1}--"
+  if [ -z "${!1}" ]; then
+    error_exit "environment variable not set: $1"
+  fi
+}
 
-# check env variable set: $WEB_DIR
-if [ -z "$WEB_DIR" ]; then
-  error_exit "environment variable not set: WEB_DIR"
-fi
+check_env "WEB_DIR"
+check_env "SECRET_KEY"
+
+cd $SUBLOG_DIR
 
 log "pulling code repo..."
 git pull >> /dev/null
