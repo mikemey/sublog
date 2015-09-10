@@ -21,9 +21,6 @@ function check_env {
   fi
 }
 
-check_env "WEB_DIR"
-check_env "SECRET_KEY"
-
 cd $SUBLOG_DIR
 
 log "pulling code repo..."
@@ -31,6 +28,9 @@ git pull >> /dev/null
 if [ $? -ne 0 ]; then
   error_exit "pull from git repository failed!"
 fi
+
+check_env "WEB_DIR"
+check_env "SECRET_KEY"
 
 log "shutting down running server..."
 SUBLOG_PID=`screen -list | grep $SUBLOG_NAME | cut -f1 -d'.' | sed 's/\W//g'`
