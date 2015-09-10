@@ -6,7 +6,7 @@
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-<form action="{% url 'new-article' %}" class="form-horizontal" method="POST">
+<form action="{% url 'new_article' %}" class="form-horizontal" method="POST">
     {% csrf_token %}
 
     <div class="form-group">
@@ -26,6 +26,7 @@
 
     <div class="form-group">
         <label for="content" class="col-sm-2 control-label">Content</label>
+
         <div class="col-sm-9">
                 <textarea id="content" class="form-control" placeholder="your comment"
                           name="content" rows="15">{{ form_data.content }}</textarea>

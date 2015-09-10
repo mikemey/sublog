@@ -1,7 +1,7 @@
 import re
 
 article_title_re = re.compile('"panel-title">([^<]*)</h3>')
-article_content_re = re.compile('span>\s*<p>([^<]*)</p>')
+article_content_re = re.compile("""<div class="article_content">(.+?(?=</div))""", re.DOTALL)
 
 
 def get_articles(response):
