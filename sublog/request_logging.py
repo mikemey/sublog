@@ -11,7 +11,7 @@ class RequestLoggingMiddleware(object):
         self.logger = logging.getLogger('sublog')
 
     def log_message(self, method, path, response_status, time, user_ip, user_agent, post_msg=None):
-        msg = """%s %s %s (%sms) [%s, '%s', '%s', '%s']""" % \
+        msg = """%4s %22s %s (%sms) [%s, '%s', '%s', '%s']""" % \
               (method, path, response_status, time, user_ip,
                user_agent[0], user_agent[1], user_agent[2])
 
