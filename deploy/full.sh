@@ -15,7 +15,6 @@ function log {
 }
 
 function check_env {
-  echo "$1--${1}--${!1}--"
   if [ -z "${!1}" ]; then
     error_exit "environment variable not set: $1"
   fi
