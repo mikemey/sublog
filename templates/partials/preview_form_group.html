@@ -1,0 +1,15 @@
+<div>
+    <div class="btn-group" role="group">
+        <button id="write-button" type="button" class="btn btn-default">Write</button>
+        <button id="preview-button" type="button" class="btn btn-default">Preview</button>
+    </div>
+    <div id="user-preview" class="hidden" style="background-color: red;">
+    </div>
+
+    <textarea id="user-input" class="form-control" placeholder="your post"
+              style="background-color: green;"
+              name="content" rows="{{ rows }}">{{ content }} </textarea>
+</div>
+{% load staticfiles %}
+<script src="{% static 'js.cookie-2.0.3.min.js' %}"></script>
+<script src="{% static 'preview.js' %}"></script>
