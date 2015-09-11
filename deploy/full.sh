@@ -47,7 +47,7 @@ if [ "$1" == "-f" ]; then
   cd $SUBLOG_DIR
 fi
 
-log "collect static files..."
+log "collecting static files..."
 python manage.py collectstatic --noinput >> /dev/null
 if [ $? -ne 0 ]; then
   error_exit "collecting static files failed!"
