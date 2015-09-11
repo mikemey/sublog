@@ -35,7 +35,7 @@ $(function() {
       });
     }
   };
-  console.log()
+
   // initially request a preview (ie page was reloaded).
   previewButton.mouseenter(checkMarkdownUpdate);
   checkMarkdownUpdate();
