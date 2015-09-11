@@ -67,3 +67,46 @@ div.panel-body {
   font-size: 90%;
   padding: 4px 8px;
 }
+
+div.previewable {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+  background-color: #eeeeee;
+  padding: 7px;
+}
+
+.previewable .grey-btn {
+  background-color: #c0c0c0;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border-bottom: 0 none;
+}
+
+.previewable .active-btn {
+  background-color: #ffffff;
+  border-color: #ffffff;
+  cursor: auto;
+}
+
+.previewable button.grey-btn:disabled:hover {
+  background-color: #ffffff;
+  cursor: auto;
+}
+
+.area-spacer {
+  padding: 0px;
+}
+
+.write-area {
+  min-height: 300px;
+  padding: 8px;
+}
+
+.preview-area {
+  background-color: #fdfdfd;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+  padding: 7px 12px;
+}

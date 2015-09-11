@@ -29,9 +29,8 @@
     <div class="form-group">
         <label for="content" class="col-sm-2 control-label">Content</label>
 
-        <div class="col-sm-9">
-                <textarea id="content" class="form-control" placeholder="your comment"
-                          name="content" rows="15">{{ form_data.content }}</textarea>
+        <div id="content" class="col-sm-9">
+            {% include 'partials/preview_form_group.html' with content=form_data.content rows=15 %}
         </div>
     </div>
 

@@ -1,0 +1,17 @@
+<div class="previewable">
+    <div class="btn-group" role="group">
+        <div id="write-button" class="grey-btn active-btn btn btn-default">Write</div>
+        <div id="preview-button" class="grey-btn btn btn-default">Preview</div>
+    </div>
+
+    <div class="area-spacer">
+        <textarea id="write-area" class="write-area form-control" placeholder="your post" name="content">
+            {{ content }}
+        </textarea>
+
+        <div id="preview-area" class="hidden preview-area"></div>
+    </div>
+</div>
+{% load staticfiles %}
+<script src="{% static 'js.cookie-2.0.3.min.js' %}"></script>
+<script src="{% static 'preview.js' %}"></script>
