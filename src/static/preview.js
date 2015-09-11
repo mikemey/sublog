@@ -1,43 +1,50 @@
 $(function() {
-  var ids = ['#user-input', '#user-preview'];
-  var write_active = true;
-  var content_changed = true;
+  var content_changed = false;
 
-  var test = 0;
+  var writeButton = $('#write-button');
+  var writeArea = $('#write-area');
+  var previewButton = $('#preview-button');
+  var previewArea = $('#preview-area');
 
-  $('#write-button').click(function() {
-    swapTo(0);
-  });
-
-  $('#preview-button').click(function() {
-      swapTo(1);
-  });
-
-  $('#user-input').keypress(function() {
+  writeArea.keypress(function() {
     content_changed = true;
   });
 
-  $('#preview-button').mouseenter(function() {
+  writeButton.click(function() {
+    swap(previewButton, previewArea, writeButton, writeArea);
+  });
+
+  previewButton.click(function() {
+    swap(writeButton, writeArea, previewButton, previewArea);
+  });
+
+  checkMarkdownUpdate = function() {
+    if(writeArea.val().trim() === '') {
+      previewArea.html('Nothing to preview');
+      return;
+    }
     if (content_changed) {
       var csrf_token = Cookies.get('csrftoken');
-      $.ajax({
-          url: '/markdown/',
-          type: 'post',
-          data: $(ids[0]).val(),
-          headers: { 'X-CSRFToken': csrf_token },
+      $.ajax({ url: '/markdown/', type: 'post',
+          data: writeArea.val(), headers: { 'X-CSRFToken': csrf_token },
           success: function (data) {
             content_changed = false;
-            $(ids[1]).html(data);
+//            previewArea.css('min-height', writeArea.height());
+            previewArea.html(data);
           }
       });
     }
-  });
+  };
+  console.log()
+  // initially request a preview (ie page was reloaded).
+  previewButton.mouseenter(checkMarkdownUpdate);
+  checkMarkdownUpdate();
 
-  function swapTo(toIx) {
-    var from = ids[write_active ? 0: 1];
-    var to = ids[write_active ? 1: 0];
-    $(from).addClass('hidden');
-    $(to).removeClass('hidden');
-    write_active = to == ids[0];
+  swap = function(fromButton, fromArea, toButton, toArea) {
+    fromButton[0].disabled = '';
+    fromArea.addClass('hidden');
+
+    toButton[0].disabled = 'disabled';
+    toArea.removeClass('hidden' );
   };
 });
