@@ -77,36 +77,46 @@ div.previewable {
 }
 
 .previewable .grey-btn {
-  background-color: #c0c0c0;
+  background-color: #ffffff;
+  border-color: #ffffff;
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 0px;
   border-bottom: 0 none;
+  cursor: default;
+}
+
+.previewable .grey-btn:hover {
+  background-color: #ffffff;
+  border-color: #ffffff;
 }
 
 .previewable .active-btn {
-  background-color: #ffffff;
-  border-color: #ffffff;
-  cursor: auto;
+  background-color: #c0c0c0;
+  border-color: #b0b0b0;
+  cursor: pointer;
 }
 
-.previewable button.grey-btn:disabled:hover {
-  background-color: #ffffff;
-  cursor: auto;
+.previewable .active-btn:hover {
+  background-color: #f0f0f0;
+  border-color: #c0c0c0;
 }
 
 .area-spacer {
   padding: 0px;
 }
 
-.write-area {
+textarea.write-area {
   min-height: 300px;
-  padding: 8px;
+  border-top-left-radius: 0px;
+  padding: 10px 14px;
 }
 
 .preview-area {
   background-color: #fdfdfd;
   border: 1px solid #ccc;
   border-radius: 4px;
+  border-top-left-radius: 0px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
-  padding: 7px 12px;
+  padding: 10px 14px;
+  font-weight: 400;
 }

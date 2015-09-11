@@ -41,10 +41,10 @@ $(function() {
   checkMarkdownUpdate();
 
   swap = function(fromButton, fromArea, toButton, toArea) {
-    fromButton[0].disabled = '';
+    fromButton.addClass('active-btn');
     fromArea.addClass('hidden');
 
-    toButton[0].disabled = 'disabled';
-    toArea.removeClass('hidden' );
+    toButton.removeClass('active-btn');
+    toArea.removeClass('hidden');
   };
 });
