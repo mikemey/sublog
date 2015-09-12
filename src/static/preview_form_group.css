@@ -13,6 +13,8 @@ div.previewable {
   cursor: default;
   border: 1px solid #ccc;
   border-bottom: 0 none;
+  margin-bottom: -1px;
+  overflow-x: hidden;
 }
 
 .previewable div.grey-btn:hover {

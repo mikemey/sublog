@@ -7,7 +7,7 @@ SECRET_KEY = os.environ['SECRET_KEY']
 ALLOWED_HOSTS = ['*']
 
 DEBUG = False
-SU_VERSION = 'v1.2'
+SU_VERSION = 'v1.2.1'
 
 STATIC_URL = '/static/'
 STATIC_ROOT = '/share/Web/static'
