@@ -3,10 +3,6 @@ html {
   margin: 0 auto;
 }
 
-div.mobile-spacer {
-  margin-bottom: 10px;
-}
-
 @media ( max-width : 600px) {
   html {
     width: 100%;
@@ -48,11 +44,23 @@ a.navbar-brand {
 }
 
 div.footer-row {
+  margin: 20px 0;
+}
+
+div.footer-text {
+  text-align: right;
+  margin-top: 20px;
+  margin-bottom: 5px;
+  font-size: 10px;
+  font-style: italic;
+}
+
+div.sublogo {
+  padding-left: 0px;
   text-align: right;
 }
 
-.footer-row img {
-  vertical-align: bottom;
+img.sublogo {
   height: 40px;
 }
 

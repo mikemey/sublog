@@ -8,7 +8,7 @@ UNKNOWN_STRING = 'NKN'
 
 class RequestLoggingMiddleware(object):
     def __init__(self):
-        self.logger = logging.getLogger('sublog')
+        self.logger = logging.getLogger('sublog.log')
 
     def log_message(self, method, path, response_status, time, user_ip, user_agent, post_msg=None):
         msg = """%-4s %-13s %s (%3sms) [%s, '%s', '%s', '%s']""" % \

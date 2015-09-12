@@ -47,3 +47,11 @@ def re_list(regex, content):
         result.append(found_title.strip())
 
     return result
+
+
+version_no_re = re.compile("""="version">([^<]*)<""")
+
+
+def get_version(response):
+    version_no = re_list(version_no_re, response.content)
+    return version_no[0]
