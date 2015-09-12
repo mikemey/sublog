@@ -54,6 +54,10 @@ if [ $? -ne 0 ]; then
 fi
 cp assets/favicons/* $WEB_DIR
 
+random=$(head -n 1 /dev/urandom | tr -dc 'a-zA-Z0-9~!@#$%^&*_-')XXX23ifjcf
+export SECRET="$(head -n 1 /dev/urandom | tr -dc 'a-zA-Z0-9~!@#$%^&*_-')XXX23ifjcf"
+
+log "generated random key: $SECRET"
 log "starting server daemon..."
 screen -dmS sublog /usr/bin/python manage.py runserver 0.0.0.0:4444
 
