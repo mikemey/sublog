@@ -4,7 +4,7 @@ from sublog import settings
 
 version = settings.SU_VERSION
 
-logging.getLogger('sublog.ver').info('setting version to [%s]' % version)
+logging.getLogger('sublog.ver').info('version: %s' % version)
 version_data = dict([('version', version)])
 
 
