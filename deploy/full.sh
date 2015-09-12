@@ -30,12 +30,11 @@ fi
 
 check_env "WEB_DIR"
 
-log "shutting down running server..."
 SUBLOG_PID=`screen -list | grep $SUBLOG_NAME | cut -f1 -d'.' | sed 's/\W//g'`
 if [ -z $SUBLOG_PID ]; then
   log "no process named [$SUBLOG_NAME] found."
 else
-  log "shutdown $SUBLOG_NAME process: $SUBLOG_PID"
+  log "shutting down $SUBLOG_NAME process: $SUBLOG_PID"
   kill $SUBLOG_PID >> /dev/null
 fi
 
