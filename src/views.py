@@ -1,31 +1,29 @@
 from django.core.urlresolvers import reverse
-
 from django.http import HttpResponse
-
 from django.http.response import HttpResponseRedirect, Http404
-
 from django.shortcuts import render, get_object_or_404
-
 from django.db import transaction
-
 from django.utils.html import escape
-
 from django.views import generic
-
 from markdown import Markdown
 
-from src import ARTICLES_VISIBLE
+from src import ARTICLES_VISIBLE, sycache
 from src.models import Article, ArticleComment
 
 MISSING_FIELDS_ERROR = 'Required field(s) missing: %s'
 ALLOWED_PING_USER_AGENTS = ['UCBrowser1.0.0', 'curl/7.43.0']
 
 MARKDOWN = Markdown()
+CACHE = sycache.cache
 
 
 class IndexView(generic.ListView):
-    template_name = 'index.html'
-    context_object_name = 'latest_articles'
+    def get(self, request, *args, **kwargs):
+        if not CACHE.data:
+            CACHE.set(render(request, 'index.html', {
+                'latest_articles': self.get_queryset()
+            }))
+        return CACHE.data
 
     def get_queryset(self):
         return Article.objects.order_by('-pub_date')[:ARTICLES_VISIBLE]
@@ -52,6 +50,7 @@ class CreateArticleView(generic.CreateView):
 
         art = parsed_post.result
         art.save()
+        CACHE.invalidate()
         return HttpResponseRedirect(reverse('article', args=(art.id,)))
 
 
