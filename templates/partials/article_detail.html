@@ -1,4 +1,4 @@
-<div class="panel panel-default">
+<div class="article-panel panel panel-default">
     <div class="panel-heading">
         <h3 class="panel-title">{{ article.title }}
         </h3>
@@ -8,15 +8,15 @@
         <span class="small pull-right">{{ article.pub_date }}</span>
 
         <div class="article_content">
-            {% if long_version or article.content|wordcount < 60 %}
-                {{ article.content }}
+            {% if preview and article.content|wordcount < 60 %}
+            {{ article.content }}
             {% else %}
-                {{ article.content | truncatewords_html:60 }}
+            {{ article.content | truncatewords_html:60 }}
             {% endif %}
 
         </div>
 
-        {% if not long_version %}
+        {% if preview %}
         <p><a href="{% url 'article' article.id %}">read more...</a></p>
         {% endif %}
     </div>

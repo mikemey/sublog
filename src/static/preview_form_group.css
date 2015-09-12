@@ -1,0 +1,71 @@
+div.previewable {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+  background-color: #eeeeee;
+  padding: 7px;
+}
+
+.previewable div.grey-btn {
+  background-color: #ffffff;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  cursor: default;
+  border: 1px solid #ccc;
+  border-bottom: 0 none;
+}
+
+.previewable div.grey-btn:hover {
+  z-index: 0;
+}
+
+.previewable div.grey-btn:hover:active {
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  outline: none;
+  box-shadow: none;
+  border-bottom: 0 none;
+}
+
+.previewable div.active-btn {
+  background-color: #e0e0e0;
+  border-color: #b0b0b0;
+  cursor: pointer;
+}
+
+.previewable div.active-btn:hover {
+  background-color: #f0f0f0;
+  border-color: #c0c0c0;
+}
+
+.area-spacer {
+  padding: 0px;
+}
+
+textarea.new-article-content {
+  min-height: 550px;
+}
+
+textarea.new-comment-content {
+  min-height: 200px;
+}
+
+textarea.write-area {
+  background-color: #fafafa;
+  border-top-left-radius: 0px;
+  padding: 10px 14px;
+}
+
+textarea.write-area:focus {
+  background-color: #ffffff;
+}
+
+.preview-area {
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  border-top-left-radius: 0px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+  padding: 10px 14px;
+  font-weight: 400;
+}

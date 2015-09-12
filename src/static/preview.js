@@ -1,5 +1,5 @@
 $(function() {
-  var content_changed = false;
+  var content_changed = true;
 
   var writeButton = $('#write-button');
   var writeArea = $('#write-area');
@@ -12,6 +12,7 @@ $(function() {
 
   writeButton.click(function() {
     swap(previewButton, previewArea, writeButton, writeArea);
+    writeArea.focus();
   });
 
   previewButton.click(function() {
@@ -19,8 +20,11 @@ $(function() {
   });
 
   checkMarkdownUpdate = function() {
+    if (content_changed && writeArea.outerHeight()) {
+      previewArea.css('min-height', writeArea.outerHeight());
+    }
     if(writeArea.val().trim() === '') {
-      previewArea.html('Nothing to preview');
+      previewArea.html('<p>Nothing to preview<p>');
       return;
     }
     if (content_changed) {
@@ -29,7 +33,6 @@ $(function() {
           data: writeArea.val(), headers: { 'X-CSRFToken': csrf_token },
           success: function (data) {
             content_changed = false;
-//            previewArea.css('min-height', writeArea.height());
             previewArea.html(data);
           }
       });
@@ -38,6 +41,7 @@ $(function() {
 
   // initially request a preview (ie page was reloaded).
   previewButton.mouseenter(checkMarkdownUpdate);
+  previewButton.click(checkMarkdownUpdate);
   checkMarkdownUpdate();
 
   swap = function(fromButton, fromArea, toButton, toArea) {

@@ -5,7 +5,7 @@
 {% block content %}
     {% if latest_articles %}
         {% for article in latest_articles %}
-            {% include 'partials/article_detail.html' with long_version=False %}
+            {% include 'partials/article_detail.html' with preview=True %}
         {% endfor %}
     {% else %}
         <p>No articles yet!</p>

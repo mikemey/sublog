@@ -8,35 +8,31 @@
     {% csrf_token %}
 
     <div class="form-group">
-        <div class="col-sm-offset-1 col-sm-11">
-            <h2>Create a new article:</h2>
-        </div>
+        <h3 class="col-sm-offset-1 col-sm-4">Create new article:</h3>
 
-        {% if error_message %}
-        <div class="alert alert-danger col-sm-offset-2 col-sm-8" role="alert">{{ error_message }}</div>
-        {% endif %}
+        <div class="col-sm-offset-3 col-sm-3">
+            <button type="submit" class="post-article-btn btn btn-default">Post article</button>
+        </div>
     </div>
 
+    {% if error_message %}
     <div class="form-group">
-        <label for="title" class="col-sm-2 control-label">Title </label>
+        <div class="alert alert-danger col-sm-offset-1 col-sm-11" role="alert">{{ error_message }}</div>
+    </div>
+    {% endif %}
 
-        <div class="col-sm-9">
+    <div class="form-group">
+        <label for="title" class="col-sm-offset-2 col-sm-1 control-label">Title </label>
+
+        <div class="col-sm-8">
             <input id="title" class="form-control" placeholder="your title"
                    value="{{ form_data.title }}" name="title" type="text" maxlength="500"/>
         </div>
     </div>
 
     <div class="form-group">
-        <label for="content" class="col-sm-2 control-label">Content</label>
-
-        <div id="content" class="col-sm-9">
-            {% include 'partials/preview_form_group.html' with content=form_data.content rows=15 %}
-        </div>
-    </div>
-
-    <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-9">
-            <button type="submit" class="btn btn-default">Post article</button>
+        <div id="content" class="col-sm-offset-1 col-sm-11">
+            {% include 'partials/preview_form_group.html' with content=form_data.content type='article' %}
         </div>
     </div>
 </form>

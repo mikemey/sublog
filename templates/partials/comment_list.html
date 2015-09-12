@@ -1,24 +1,29 @@
-<div>
-    {% if article.comments_count %}
-    <a id="comments"></a>
+<div class="form-horizontal">
 
-    <h3>Comments:</h3>
-    {% else %}
-    <h4>No comments yet</h4>
-    {% endif %}
+    <div class="form-group">
+        {% if article.comments_count %}
+        <a id="comments"></a>
 
-    {% for comment in article.sorted_comments %}
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4 class="panel-title">{{ comment.title | default:'-- no title --' }}</h4>
+        <h3>Comments:</h3>
+        {% else %}
+        <h4>No comments yet</h4>
+        {% endif %}
+
+        <div class="col-sm-offset-2 col-sm-8">
+            {% for comment in article.sorted_comments %}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">{{ comment.title | default:'-- no title --' }}</h4>
+                </div>
+                <ul class="list-group">
+                    <li class="small text-muted list-group-item">{{ comment.user_name }}
+                        <span class="pull-right">{{ comment.pub_date }}</span>
+                    </li>
+                </ul>
+
+                <div class="panel-body">{{ comment.content }}</div>
+            </div>
+            {% endfor %}
         </div>
-        <ul class="list-group">
-            <li class="small text-muted list-group-item">{{ comment.user_name }}
-                <span class="pull-right">{{ comment.pub_date }}</span>
-            </li>
-        </ul>
-
-        <div class="panel-body">{{ comment.content }}</div>
     </div>
-    {% endfor %}
 </div>
