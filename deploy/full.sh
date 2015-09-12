@@ -29,7 +29,6 @@ if [ $? -ne 0 ]; then
 fi
 
 check_env "WEB_DIR"
-check_env "SECRET_KEY"
 
 log "shutting down running server..."
 SUBLOG_PID=`screen -list | grep $SUBLOG_NAME | cut -f1 -d'.' | sed 's/\W//g'`
@@ -43,9 +42,12 @@ fi
 if [ "$1" == "-f" ]; then
   log "deleting static files in folder [$WEB_DIR/]..."
   cd $WEB_DIR
-  ls | grep -v 'ghost' | xargs rm -r
+  ls | grep -v 'ghost' | xargs rm -r >> /dev/null 2>&1
   cd $SUBLOG_DIR
 fi
+
+export SECRET_KEY="$(head -n 1 /dev/urandom | tr -dc 'a-zA-Z0-9~!@#$%^&*_-')XXX23ifjcf"
+log "generated random key: $SECRET_KEY"
 
 log "collecting static files..."
 python manage.py collectstatic --noinput >> /dev/null
@@ -54,12 +56,11 @@ if [ $? -ne 0 ]; then
 fi
 cp assets/favicons/* $WEB_DIR
 
-random=$(head -n 1 /dev/urandom | tr -dc 'a-zA-Z0-9~!@#$%^&*_-')XXX23ifjcf
-export SECRET="$(head -n 1 /dev/urandom | tr -dc 'a-zA-Z0-9~!@#$%^&*_-')XXX23ifjcf"
-
-log "generated random key: $SECRET"
 log "starting server daemon..."
 screen -dmS sublog /usr/bin/python manage.py runserver 0.0.0.0:4444
+if [ $? -ne 0 ]; then
+  error_exit "starting server failed!"
+fi
 
 log "finished successfully."
 popd >> /dev/null
