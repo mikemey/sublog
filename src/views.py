@@ -9,6 +9,7 @@ from markdown import Markdown
 
 from src import ARTICLES_VISIBLE, sycache
 from src.models import Article, ArticleComment
+from sublog import settings
 
 MISSING_FIELDS_ERROR = 'Required field(s) missing: %s'
 ALLOWED_PING_USER_AGENTS = ['UCBrowser1.0.0', 'curl/7.43.0']
@@ -19,11 +20,17 @@ CACHE = sycache.cache
 
 class IndexView(generic.ListView):
     def get(self, request, *args, **kwargs):
-        if not CACHE.data:
-            CACHE.set(render(request, 'index.html', {
-                'latest_articles': self.get_queryset()
-            }))
-        return CACHE.data
+        http_response = CACHE.data
+        if not http_response:
+            http_response = self.index_page_response(request)
+            if not settings.DEBUG:
+                CACHE.set(http_response)
+        return http_response
+
+    def index_page_response(self, request):
+        return render(request, 'index.html', {
+            'latest_articles': self.get_queryset()
+        })
 
     def get_queryset(self):
         return Article.objects.order_by('-pub_date')[:ARTICLES_VISIBLE]
