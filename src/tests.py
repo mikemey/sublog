@@ -1,12 +1,15 @@
 import difflib
 
+import django
 from django.core.urlresolvers import reverse
 from django.test import TestCase
+from django.test.utils import setup_test_environment
+from markdown import Markdown
 
 from src.test_utils import get_articles, get_comments, get_version
 from sublog import settings
 
-TEST_FOLDER = 'assets/test/'
+TEST_FOLDER = '/Users/mmi/github/sublog/assets/test/'
 
 TITLE_1 = 'title 1'
 CONTENT_1 = 'content 1'
@@ -33,7 +36,7 @@ def compare_contents(test, expected, actual):
     actual = actual.splitlines()
 
     diff = difflib.unified_diff(expected, actual)
-    diff_msg = ''.join(diff)
+    diff_msg = '\n'.join(diff)
 
     test.assertEquals(0, len(diff_msg), "Content differs: \n%s" % diff_msg)
 
@@ -164,9 +167,15 @@ class CommentsTests(TestCase):
         self.assertEquals(content, comment['content'])
 
 
+setup_test_environment()
+django.setup()
+
+
 class PreviewMarkdownTests(TestCase):
-    def markdown_response(self, post_data=None):
-        response = self.client.post('/markdown/', data=post_data, content_type='text/markdown')
+    def markdown_response(self, markdown):
+        post_data = {'text': markdown}
+
+        response = self.client.post('/markdown/', data=post_data)
         self.assertEquals(200, response.status_code)
         self.assertEquals('text/html', response['Content-Type'])
         return response.content
@@ -187,6 +196,29 @@ class PreviewMarkdownTests(TestCase):
         input_content = test_file_content('full_markdown_input.md')
         expected = test_file_content('full_markdown_expected.html')
         compare_contents(self, expected, self.markdown_response(input_content))
+
+    def test_my_gfm(self):
+        mdp = Markdown(extensions=['gfm'])
+        actual = mdp.convert("""
+### IMAGES:
+
+`![alternative text](http://www.url.to/image.png "Logo Hover Text")` will show: ![alternative text](/static/sublog.png "Logo Hover Text")
+
+Similar to links a reference style organisation of the images is possible.
+
+### SYNTAX AND QUOTATIONS:
+
+la de du
+        """)
+        expected = """
+<h3>IMAGES:</h3>
+<p><code>![alternative text](http://www.url.to/image.png "Logo Hover Text")</code> will show: <a href="/static/sublog.png" target="_blank"><img src="/static/sublog.png" alt="alternative text" title="LogoHoverText" style="max-width :100%;"></a></p>
+<p>Similar to links a reference style organisation of the images is possible.</p>
+<h3>SYNTAX AND QUOTATIONS:</h3>
+<p>la de du</p>
+"""
+
+        compare_contents(self, expected, actual)
 
 
 test_version = 'tv1.0'

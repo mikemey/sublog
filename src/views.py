@@ -4,17 +4,20 @@ from django.http.response import HttpResponseRedirect, Http404
 from django.shortcuts import render, get_object_or_404
 from django.db import transaction
 from django.utils.html import escape
+
 from django.views import generic
+
 from markdown import Markdown
 
 from src import ARTICLES_VISIBLE, sycache
 from src.models import Article, ArticleComment
 from sublog import settings
+from sublog.middleware.gfm_extensions import ImageLinkExtension
 
 MISSING_FIELDS_ERROR = 'Required field(s) missing: %s'
 ALLOWED_PING_USER_AGENTS = ['UCBrowser1.0.0', 'curl/7.43.0']
 
-MARKDOWN = Markdown()
+MARKDOWN = Markdown(extensions=['gfm', ImageLinkExtension()])
 CACHE = sycache.cache
 
 
@@ -70,8 +73,9 @@ def health_check(request):
 
 
 def markdown_preview(request):
-    markdown = request.body
-    parsed_html = MARKDOWN.convert(escape(markdown))
+    input_text = request.POST['text']
+    # print input_text
+    parsed_html = MARKDOWN.convert(escape(input_text))
     return HttpResponse(parsed_html, content_type='text/html')
 
 
