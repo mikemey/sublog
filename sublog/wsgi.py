@@ -11,9 +11,11 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
+from sublog import settings
+
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "sublog.settings")
 
 application = get_wsgi_application()
 
 logging.getLogger('sublog').info('----------------------')
-logging.getLogger('sublog').info('server started.')
+logging.getLogger('sublog').info('server started. %s' % settings.SU_VERSION)
