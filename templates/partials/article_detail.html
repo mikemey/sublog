@@ -8,12 +8,11 @@
         <span class="small pull-right">{{ article.pub_date }}</span>
 
         <div class="article_content">
-            {% if preview and article.content|wordcount < 60 %}
-            {{ article.content }}
+            {% if preview and article.content|wordcount > 60 %}
+                {{ article.content | truncatewords_html:60 }}
             {% else %}
-            {{ article.content | truncatewords_html:60 }}
+                {{ article.content }}
             {% endif %}
-
         </div>
 
         {% if preview %}

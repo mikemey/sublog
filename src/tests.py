@@ -50,7 +50,7 @@ def post_article(client, title, content, follow=True):
     return client.post('/article/', data={'title': title, 'content': content}, follow=follow)
 
 
-class ViewTests(TestCase):
+class AuxiliaryEndpointsTests(TestCase):
     def ping_response(self, user_agent):
         header = {'HTTP_USER_AGENT': user_agent} if user_agent else {}
         return self.client.get('/ping/', **header)
@@ -71,7 +71,7 @@ class ViewTests(TestCase):
         self.assertEquals(404, self.ping_response(user_agent).status_code)
 
 
-class ArticleViewTests(TestCase):
+class IndexViewTests(TestCase):
     def test_index_view_with_no_articles(self):
         index = get_index_page(self.client)
         self.assertContains(index, 'No articles yet!')
@@ -108,6 +108,28 @@ class ArticleViewTests(TestCase):
         self.assertEquals(EXP_NEW_CONTENT, articles[0]['content'])
         self.assertEquals(TITLE_1, articles[1]['title'])
         self.assertEquals(EXP_CONTENT_1, articles[1]['content'])
+
+
+class ArticleViewTest(TestCase):
+    def setUp(self):
+        self.article_section = 'new line\nabc def ghi jkl\n\nmno pqr stu vwx\n'
+        self.full_content = self.article_section * 10
+        self.article_page = post_article(self.client, TITLE_1, self.full_content)
+
+    def test_short_version_on_index_page(self):
+        short_length = len(self.article_section * 6) + len('</p><p>') * 6 + len('...') + 1
+        actual_content = self.assert_content_length(short_length, get_index_page(self.client))
+        self.assertTrue(actual_content.strip().endswith('...</p>'))
+
+    def test_long_version_on_article_page(self):
+        full_length = len(self.full_content) + len('</p><p>') * 10 - 4
+        self.assert_content_length(full_length, self.article_page)
+
+    def assert_content_length(self, expected_length, page):
+        article = get_articles(page)[0]
+        actual_content = article['content']
+        self.assertEquals(expected_length, len(actual_content))
+        return actual_content
 
 
 class CommentsTests(TestCase):
