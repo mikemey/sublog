@@ -1,4 +1,4 @@
-from markdown.util.etree import Element
+from markdown import util
 
 import markdown
 from markdown.inlinepatterns import LinkPattern, Pattern, IMAGE_LINK_RE, LINK_RE, ImagePattern
@@ -12,9 +12,10 @@ class ImageLinkPattern(Pattern):
 
     def handleMatch(self, m):
         img = self.image.handleMatch(m)
+        img.set('style', 'max-width:100%;')
 
-        anchor = Element("a")
-        anchor.set('href', img.get('href'))
+        anchor = util.etree.Element("a")
+        anchor.set('href', img.get('src'))
         anchor.set('target', '_blank')
         anchor.append(img)
         return anchor

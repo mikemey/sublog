@@ -24,7 +24,11 @@
                     </li>
                 </ul>
 
-                <div class="panel-body">{{ comment.content }}</div>
+                {% autoescape off %}
+                <!--comment-content-start-->
+                <div class="panel-body">{{ comment.rendered }}</div>
+                <!--comment-content-end-->
+                {% endautoescape %}
             </div>
             {% endfor %}
         </div>

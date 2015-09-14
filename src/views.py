@@ -1,9 +1,16 @@
 from django.core.urlresolvers import reverse
+
 from django.http import HttpResponse
+
 from django.http.response import HttpResponseRedirect, Http404
+
 from django.shortcuts import render, get_object_or_404
+
 from django.db import transaction
-from django.utils.html import escape
+
+from django.utils.encoding import force_text
+
+from django.utils.safestring import mark_safe
 
 from django.views import generic
 
@@ -19,6 +26,15 @@ ALLOWED_PING_USER_AGENTS = ['UCBrowser1.0.0', 'curl/7.43.0']
 
 MARKDOWN = Markdown(extensions=['gfm', ImageLinkExtension()])
 CACHE = sycache.cache
+
+
+def html_from(markdown):
+    return MARKDOWN.convert(html_escape(markdown))
+
+
+def html_escape(text):
+    return mark_safe(force_text(text).replace('&', '&amp;').replace('<', '&lt;')
+                     .replace('>', '&gt;').replace("'", '&#39;'))
 
 
 class IndexView(generic.ListView):
@@ -37,11 +53,6 @@ class IndexView(generic.ListView):
 
     def get_queryset(self):
         return Article.objects.order_by('-pub_date')[:ARTICLES_VISIBLE]
-
-
-class ArticleView(generic.DetailView):
-    model = Article
-    template_name = 'article.html'
 
 
 class CreateArticleView(generic.CreateView):
@@ -73,10 +84,15 @@ def health_check(request):
 
 
 def markdown_preview(request):
-    input_text = request.POST['text']
-    # print input_text
-    parsed_html = MARKDOWN.convert(escape(input_text))
-    return HttpResponse(parsed_html, content_type='text/html')
+    source = request.POST['text']
+    return HttpResponse(html_from(source), content_type='text/html')
+
+
+def get_article(request, article_id):
+    art = get_object_or_404(Article, pk=article_id)
+    return render(request, 'article.html', {
+        'article': art
+    })
 
 
 def post_comment(request, article_id):
@@ -114,7 +130,8 @@ def parse_article_post(post_data):
 
     art = Article(
         title=title,
-        content=content
+        content=content,
+        rendered=html_from(content)
     )
     return ParsePostResult(art)
 
@@ -136,6 +153,7 @@ def parse_comment_post(art, post_data):
         user_name=name,
         user_email=email,
         content=content,
+        rendered=html_from(content),
         title=title
     )
     return ParsePostResult(art_comment)

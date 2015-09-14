@@ -42,7 +42,7 @@ Similar to links a reference style organisation of the images is possible.
 
 ### SYNTAX AND QUOTATIONS:
 
-a separate quotation can be done \  ``with single back-ticks`\`
+a separate quotation can be done \``with single back-ticks`\`
 
 ### NOT SUPPORTED:
 
