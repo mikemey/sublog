@@ -45,7 +45,7 @@ if [ "$1" == "-f" ]; then
   cd $SUBLOG_DIR
 fi
 
-export SECRET_KEY="$(head -n 1 /dev/urandom | tr -dc 'a-zA-Z0-9~!@#$%^&*_-')XXX23ifjcf"
+export SECRET_KEY="$(head -n 1 /dev/urandom | tr -dc 'a-zA-Z0-9~@#$%^&*_-')XXX23ifjcf"
 log "generated random key: $SECRET_KEY"
 
 log "collecting static files..."
@@ -54,12 +54,6 @@ if [ $? -ne 0 ]; then
   error_exit "collecting static files failed!"
 fi
 cp assets/favicons/* $WEB_DIR
-
-log "migrate (if required)..."
-python manage.py migrate src > /dev/null
-if [ $? -ne 0 ]; then
-  error_exit "migration failed!"
-fi
 
 log "starting server daemon..."
 screen -dmS sublog /usr/bin/python manage.py runserver 0.0.0.0:4444
