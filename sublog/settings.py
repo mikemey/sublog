@@ -6,7 +6,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ['SECRET_KEY']
 ALLOWED_HOSTS = ['*']
 
-DEBUG = False
+DEBUG = True
 SU_VERSION = 'v2.0.0'
 
 STATIC_URL = '/static/'

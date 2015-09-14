@@ -55,6 +55,12 @@ if [ $? -ne 0 ]; then
 fi
 cp assets/favicons/* $WEB_DIR
 
+log "migrate (if required)..."
+python manage.py migrate src > /dev/null
+if [ $? -ne 0 ]; then
+  error_exit "migration failed!"
+fi
+
 log "starting server daemon..."
 screen -dmS sublog /usr/bin/python manage.py runserver 0.0.0.0:4444
 if [ $? -ne 0 ]; then
