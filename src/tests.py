@@ -3,10 +3,10 @@ import difflib
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 
-from src.test_utils import get_articles, get_comments, get_version
+from src.test_utils import get_articles, get_comments, get_version, get_article_id
 from sublog import settings
 
-TEST_FOLDER = 'assets/test/'
+TEST_FOLDER = '/Users/mmi/github/sublog/assets/test/'
 
 TITLE_1 = 'title 1'
 CONTENT_1 = 'content 1'
@@ -33,7 +33,7 @@ def compare_contents(test, expected, actual):
     actual = actual.splitlines()
 
     diff = difflib.unified_diff(expected, actual)
-    diff_msg = ''.join(diff)
+    diff_msg = '\n'.join(diff)
 
     test.assertEquals(0, len(diff_msg), "Content differs: \n%s" % diff_msg)
 
@@ -48,6 +48,16 @@ def get_article_page(client, article_id):
 
 def post_article(client, title, content, follow=True):
     return client.post('/article/', data={'title': title, 'content': content}, follow=follow)
+
+
+def post_comment(client, article_id, title, content, name, email):
+    post_data = {
+        'title': title,
+        'name': name,
+        'email': email,
+        'content': content
+    }
+    return client.post('/article/%s/comment/' % article_id, data=post_data, follow=True)
 
 
 class AuxiliaryEndpointsTests(TestCase):
@@ -117,12 +127,14 @@ class ArticleViewTest(TestCase):
         self.article_page = post_article(self.client, TITLE_1, self.full_content)
 
     def test_short_version_on_index_page(self):
-        short_length = len(self.article_section * 6) + len('</p><p>') * 6 + len('...') + 1
+        filler_len = len('</p><p>') * 7 + len('...') + len('<br />') * 10
+        short_length = len(self.article_section * 6) + filler_len
+
         actual_content = self.assert_content_length(short_length, get_index_page(self.client))
         self.assertTrue(actual_content.strip().endswith('...</p>'))
 
     def test_long_version_on_article_page(self):
-        full_length = len(self.full_content) + len('</p><p>') * 10 - 4
+        full_length = len(self.full_content) + len('<br />') * 17 + len('</p><p>') * 11 + 1
         self.assert_content_length(full_length, self.article_page)
 
     def assert_content_length(self, expected_length, page):
@@ -133,30 +145,19 @@ class ArticleViewTest(TestCase):
 
 
 class CommentsTests(TestCase):
-    def post_comment(self, title, content, name, email):
-        post_data = {
-            'title': title,
-            'name': name,
-            'email': email,
-            'content': content
-        }
-        response = self.client.post('/article/1/comment/', data=post_data)
-        self.assertRedirects(response, '/article/1/#comments')
-
     def test_article_has_no_comments(self):
-        post_article(self.client, TITLE_1, CONTENT_1)
-        article_page = get_article_page(self.client, 1)
+        article_page = post_article(self.client, TITLE_1, CONTENT_1)
         self.assertContains(article_page, 'No comments yet')
         self.assertEquals(0, len(get_comments(article_page)))
 
     def test_article_has_2_comments(self):
         post_article(self.client, TITLE_1, CONTENT_1)
-        self.post_comment("", NEW_CONTENT, USER_NAME_1, 'email_1@ex.com')
-        self.post_comment(TITLE_2, CONTENT_2, USER_NAME_2, 'email_2@ex.com')
+        post_comment(self.client, 1, "", NEW_CONTENT, USER_NAME_1, 'email_1@ex.com')
+        post_comment(self.client, 1, TITLE_2, CONTENT_2, USER_NAME_2, 'email_2@ex.com')
 
         comments = get_comments(get_article_page(self.client, 1))
-        self.assert_comment(comments[0], TITLE_2, USER_NAME_2, CONTENT_2)
-        self.assert_comment(comments[1], "-- no title --", USER_NAME_1, NEW_CONTENT)
+        self.assert_comment(comments[0], TITLE_2, USER_NAME_2, EXP_CONTENT_2)
+        self.assert_comment(comments[1], "-- no title --", USER_NAME_1, EXP_NEW_CONTENT)
 
     def assert_comment(self, comment, title, name, content):
         self.assertEquals(title, comment['title'])
@@ -165,8 +166,10 @@ class CommentsTests(TestCase):
 
 
 class PreviewMarkdownTests(TestCase):
-    def markdown_response(self, post_data=None):
-        response = self.client.post('/markdown/', data=post_data, content_type='text/markdown')
+    def markdown_response(self, markdown):
+        post_data = {'text': markdown}
+
+        response = self.client.post('/markdown/', data=post_data)
         self.assertEquals(200, response.status_code)
         self.assertEquals('text/html', response['Content-Type'])
         return response.content
@@ -183,10 +186,37 @@ class PreviewMarkdownTests(TestCase):
         response = self.markdown_response('<h2>huge</h2>')
         self.assertEquals("<p>&lt;h2&gt;huge&lt;/h2&gt;</p>", response)
 
+    def test_escapes_script(self):
+        response = self.markdown_response("""## heading\n text <script>alert('hello');</script>""")
+        self.assertEquals("<h2>heading</h2>\n<p>text &lt;script&gt;alert(&#39;hello&#39;);&lt;/script&gt;</p>",
+                          response)
+
+    def test_image_link(self):
+        input_content = test_file_content('image_link_input.md')
+        expected = test_file_content('image_link_expected.html')
+        compare_contents(self, expected, self.markdown_response(input_content))
+
     def test_full_markdown(self):
         input_content = test_file_content('full_markdown_input.md')
         expected = test_file_content('full_markdown_expected.html')
         compare_contents(self, expected, self.markdown_response(input_content))
+
+
+class ModelMarkdownTests(TestCase):
+    def setUp(self):
+        self.input = test_file_content('full_markdown_input.md')
+        self.expected = test_file_content('full_markdown_expected.html')
+        self.article_page = post_article(self.client, TITLE_1, self.input)
+        self.article_id = get_article_id(self.article_page)
+
+    def test_article_markdown(self):
+        actual = get_articles(self.article_page)[0]['content']
+        compare_contents(self, self.expected, actual)
+
+    def test_comment_markdown(self):
+        comment = post_comment(self.client, self.article_id, TITLE_1, self.input, 'hello', 'lala@lulu.com')
+        actual = get_comments(comment)[0]['content']
+        compare_contents(self, self.expected, actual)
 
 
 test_version = 'tv1.0'

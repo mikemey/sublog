@@ -7,13 +7,15 @@
     <div class="panel-body">
         <span class="small pull-right">{{ article.pub_date }}</span>
 
+        {% autoescape off %}
         <div class="article_content">
-            {% if preview and article.content|wordcount > 60 %}
-                {{ article.content | truncatewords_html:60 }}
+            {% if preview and article.rendered|wordcount > 60 %}
+                {{ article.rendered | truncatewords_html:60 }}
             {% else %}
-                {{ article.content }}
+                {{ article.rendered }}
             {% endif %}
         </div>
+        {% endautoescape %}
 
         {% if preview %}
         <p><a href="{% url 'article' article.id %}">read more...</a></p>

@@ -21,7 +21,8 @@ def get_articles(response):
 
 comment_title_re = re.compile('"panel-title">([^<]*)</h4>')
 comment_name_re = re.compile('list-group-item">([^<]*)<span')
-comment_content_re = re.compile('div class="panel-body"><p>([^<]*)</p>')
+comment_content_re = re.compile('<!--comment-content-start-->\s*<div class="panel-body">'
+                                '(.+?(?=</div>\s*<!--comment-content-end-->))', re.DOTALL)
 
 
 def get_comments(response):
@@ -55,3 +56,10 @@ version_no_re = re.compile("""="version">([^<]*)<""")
 def get_version(response):
     version_no = re_list(version_no_re, response.content)
     return version_no[0]
+
+
+article_id_re = re.compile(r'/article/(\d*)/')
+
+
+def get_article_id(article_page):
+    return article_id_re.search(article_page.content).group(1)

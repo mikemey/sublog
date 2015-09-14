@@ -29,8 +29,11 @@ $(function() {
     }
     if (content_changed) {
       var csrf_token = Cookies.get('csrftoken');
-      $.ajax({ url: '/markdown/', type: 'post',
-          data: writeArea.val(), headers: { 'X-CSRFToken': csrf_token },
+      $.ajax({
+          url: '/markdown/',
+          type: 'post',
+          data: { 'text': writeArea.val() },
+          headers: { 'X-CSRFToken': csrf_token },
           success: function (data) {
             content_changed = false;
             previewArea.html(data);
