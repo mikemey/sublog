@@ -18,7 +18,7 @@ MISSING_FIELDS_ERROR = 'Required field(s) missing: %s'
 ALLOWED_PING_USER_AGENTS = ['UCBrowser1.0.0', 'curl/7.43.0']
 
 MARKDOWN = Markdown(extensions=['gfm', ImageLinkExtension()])
-CACHE = sycache.cache
+ANON_INDEX_CACHE = sycache.cache
 
 
 def html_from(markdown):
@@ -32,11 +32,11 @@ def html_escape(text):
 
 class IndexView(generic.ListView):
     def get(self, request, *args, **kwargs):
-        http_response = CACHE.data
-        if not http_response:
+        http_response = ANON_INDEX_CACHE.data
+        if not http_response or request.user.is_authenticated():
             http_response = self.index_page_response(request)
             if not settings.DEBUG:
-                CACHE.set(http_response)
+                ANON_INDEX_CACHE.set(http_response)
         return http_response
 
     def index_page_response(self, request):
@@ -74,7 +74,7 @@ def post_article(request):
 
     art = parsed_post.result
     art.save()
-    CACHE.invalidate()
+    ANON_INDEX_CACHE.invalidate()
     return HttpResponseRedirect(reverse('article', args=(art.id,)))
 
 
