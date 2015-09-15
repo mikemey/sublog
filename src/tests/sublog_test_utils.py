@@ -7,17 +7,17 @@ TEST_FOLDER = '/Users/mmi/github/sublog/assets/test/'
 
 
 class SublogTestCase(TestCase):
-    def test_file_content(self, file_name):
+    def read_file_content(self, file_name):
         return open(TEST_FOLDER + file_name).read()
 
-    def compare_contents(self, test, expected, actual):
+    def compare_contents(self, expected, actual):
         expected = expected.splitlines()
         actual = actual.splitlines()
 
         diff = difflib.unified_diff(expected, actual)
         diff_msg = '\n'.join(diff)
 
-        test.assertEquals(0, len(diff_msg), "Content differs: \n%s" % diff_msg)
+        self.assertEquals(0, len(diff_msg), "Content differs: \n%s" % diff_msg)
 
     # HTTP request/responses
     # ==========================

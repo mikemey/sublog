@@ -28,11 +28,11 @@ class PreviewMarkdownTests(SublogTestCase):
                           response)
 
     def test_image_link(self):
-        input_content = self.test_file_content('image_link_input.md')
-        expected = self.test_file_content('image_link_expected.html')
+        input_content = self.read_file_content('image_link_input.md')
+        expected = self.read_file_content('image_link_expected.html')
         self.compare_contents(expected, self.markdown_response(input_content))
 
     def test_full_markdown(self):
-        input_content = self.test_file_content('full_markdown_input.md')
-        expected = self.test_file_content('full_markdown_expected.html')
+        input_content = self.read_file_content('full_markdown_input.md')
+        expected = self.read_file_content('full_markdown_expected.html')
         self.compare_contents(expected, self.markdown_response(input_content))
