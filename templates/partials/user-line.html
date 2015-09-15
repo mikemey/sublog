@@ -1,0 +1,18 @@
+{% if request.user.is_authenticated %}
+
+{% load staticfiles %}
+<div class="container-fluid user-name">
+    <div class="row">
+        <div class="col-xs-5">
+            <span id="user">Logged in: {{ request.user.first_name }}</span>
+        </div>
+        <div class="col-xs-offset-6 col-xs-1">
+            <form class="logout" name="logout_form" action="{% url 'logout' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ logout_target|default:request.path }}">
+                <a href="#" onclick="logout_form.submit();">Logout</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endif %}

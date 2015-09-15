@@ -7,10 +7,12 @@ SECRET_KEY = os.environ['SECRET_KEY']
 ALLOWED_HOSTS = ['*']
 
 DEBUG = False
-SU_VERSION = 'v2.0.0'
+SU_VERSION = 'v2.1.0'
 
 STATIC_URL = '/static/'
 STATIC_ROOT = '/share/Web/static'
+
+LOGIN_URL = '/login/'
 
 WSGI_APPLICATION = 'sublog.wsgi.application'
 ROOT_URLCONF = 'sublog.urls'

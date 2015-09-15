@@ -1,7 +1,6 @@
 __author__ = 'mmi'
-import re
 
-from test_auxiliary_enpoints import *
+import re
 
 TITLE_1 = 'title 1'
 CONTENT_1 = 'content 1'
@@ -23,13 +22,6 @@ USER_NAME_2 = 'user 2'
 article_title_re = re.compile('"panel-title">([^<]*)</h3>')
 article_content_re = re.compile("""<div class="article_content">(.+?(?=</div))""", re.DOTALL)
 
-comment_title_re = re.compile('"panel-title">([^<]*)</h4>')
-comment_name_re = re.compile('list-group-item">([^<]*)<span')
-comment_content_re = re.compile('<!--comment-content-start-->\s*<div class="panel-body">'
-                                '(.+?(?=</div>\s*<!--comment-content-end-->))', re.DOTALL)
-version_no_re = re.compile("""="version">([^<]*)<""")
-article_id_re = re.compile(r'/article/(\d*)/')
-
 
 def get_articles(response):
     titles = re_list(article_title_re, response.content)
@@ -44,6 +36,12 @@ def get_articles(response):
         })
         ix += 1
     return articles
+
+
+comment_title_re = re.compile('"panel-title">([^<]*)</h4>')
+comment_name_re = re.compile('list-group-item">([^<]*)<span')
+comment_content_re = re.compile('<!--comment-content-start-->\s*<div class="panel-body">'
+                                '(.+?(?=</div>\s*<!--comment-content-end-->))', re.DOTALL)
 
 
 def get_comments(response):
@@ -63,13 +61,39 @@ def get_comments(response):
     return comments
 
 
+version_no_re = re.compile("""="version">([^<]*)<""")
+
+
 def get_version(response):
-    version_no = re_list(version_no_re, response.content)
-    return version_no[0]
+    return find_or_none(version_no_re, response)
+
+
+article_id_re = re.compile(r'/article/(\d*)/')
 
 
 def get_article_id(article_page):
-    return article_id_re.search(article_page.content).group(1)
+    return find_or_none(article_id_re, article_page)
+
+
+error_message_re = re.compile(""""alert">([^<]*)""")
+
+
+def get_error_message(response):
+    return find_or_none(error_message_re, response)
+
+
+user_name_re = re.compile("""<span id="user">([^<]*)""")
+
+
+def get_user_name(response):
+    return find_or_none(user_name_re, response)
+
+
+def find_or_none(find_re, response):
+    search = find_re.search(response.content)
+    if search:
+        return search.group(1)
+    return None
 
 
 def re_list(regex, content):

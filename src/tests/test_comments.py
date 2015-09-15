@@ -3,6 +3,9 @@ from src.tests.sublog_test_utils import SublogTestCase
 
 
 class CommentsTests(SublogTestCase):
+    def setUp(self):
+        self.login()
+
     def test_article_has_no_comments(self):
         article_page = self.post_article(TITLE_1, CONTENT_1)
         self.assertContains(article_page, 'No comments yet')

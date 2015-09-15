@@ -16,9 +16,13 @@ Including another URL conf:
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.views.generic.base import TemplateView
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
+    url('^login/', auth_views.login, {'template_name': 'login.html'}),
+    url('^logout/', auth_views.logout, {'template_name': 'login.html'}),
+    url('^', include('django.contrib.auth.urls')),
     url(r'^robots\.txt$', TemplateView.as_view(template_name='robots.txt', content_type='text/plain')),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'', include('src.urls'))
+    url(r'', include('src.urls')),
 ]

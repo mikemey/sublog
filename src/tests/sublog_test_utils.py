@@ -1,9 +1,22 @@
 import difflib
 
+from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.test.testcases import TestCase
 
 TEST_FOLDER = '/Users/mmi/github/sublog/assets/test/'
+TEST_USER_ID = 't'
+TEST_USER_NAME = 'tester'
+TEST_USER_PW = 'dad_asf'
+
+
+def create_test_user():
+    try:
+        User.objects.get_by_natural_key(TEST_USER_ID)
+    except ObjectDoesNotExist:
+        user = User.objects.create_user(TEST_USER_ID, 'not@set.com', TEST_USER_PW, first_name=TEST_USER_NAME)
+        user.save()
 
 
 class SublogTestCase(TestCase):
@@ -21,6 +34,19 @@ class SublogTestCase(TestCase):
 
     # HTTP request/responses
     # ==========================
+    def login(self):
+        create_test_user()
+        next_url = '/somewhere/'
+        response = self.client.post(reverse('login'),
+                                    {'username': TEST_USER_ID,
+                                     'password': TEST_USER_PW,
+                                     'next': next_url
+                                     })
+        self.assertRedirects(response, next_url, fetch_redirect_response=False)
+
+    def logout(self, next_url='/'):
+        return self.client.post(reverse('logout'), {'next': next_url})
+
     def get_index_page(self):
         return self.client.get(reverse('index'))
 

@@ -1,17 +1,10 @@
 from django.core.urlresolvers import reverse
-
 from django.http import HttpResponse
-
-from django.http.response import HttpResponseRedirect, Http404
-
-from django.shortcuts import render, get_object_or_404
-
+from django.http.response import HttpResponseRedirect, Http404, HttpResponseNotAllowed
+from django.shortcuts import render, get_object_or_404, redirect
 from django.db import transaction
-
 from django.utils.encoding import force_text
-
 from django.utils.safestring import mark_safe
-
 from django.views import generic
 
 from markdown import Markdown
@@ -55,24 +48,34 @@ class IndexView(generic.ListView):
         return Article.objects.order_by('-pub_date')[:ARTICLES_VISIBLE]
 
 
-class CreateArticleView(generic.CreateView):
-    model = Article
-    template_name = 'new_article.html'
-    fields = ['title', 'content']
+def new_article_page(request):
+    if not request.user.is_authenticated():
+        return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
 
-    def post(self, request, *args, **kwargs):
-        parsed_post = parse_article_post(request.POST)
+    if request.method == 'GET':
+        return get_article_page(request)
+    elif request.method == 'POST':
+        return post_article(request)
+    return HttpResponseNotAllowed
 
-        if parsed_post.error_message:
-            return render(request, 'new_article.html', {
-                'form_data': parsed_post.form_data,
-                'error_message': parsed_post.error_message
-            })
 
-        art = parsed_post.result
-        art.save()
-        CACHE.invalidate()
-        return HttpResponseRedirect(reverse('article', args=(art.id,)))
+def get_article_page(request):
+    return render(request, 'new_article.html', {'logout_target': '/'})
+
+
+def post_article(request):
+    parsed_post = parse_article_post(request.POST)
+
+    if parsed_post.error_message:
+        return render(request, 'new_article.html', {
+            'form_data': parsed_post.form_data,
+            'error_message': parsed_post.error_message
+        })
+
+    art = parsed_post.result
+    art.save()
+    CACHE.invalidate()
+    return HttpResponseRedirect(reverse('article', args=(art.id,)))
 
 
 def health_check(request):

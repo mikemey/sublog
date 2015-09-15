@@ -6,6 +6,8 @@ class ArticleViewTest(SublogTestCase):
     def setUp(self):
         self.article_section = 'new line\nabc def ghi jkl\n\nmno pqr stu vwx\n'
         self.full_content = self.article_section * 10
+
+        self.login()
         self.article_page = self.post_article(TITLE_1, self.full_content)
 
     def test_short_version_on_index_page(self):

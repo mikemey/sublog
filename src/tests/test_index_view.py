@@ -4,6 +4,9 @@ from src.tests.sublog_test_utils import SublogTestCase
 
 
 class IndexViewTests(SublogTestCase):
+    def setUp(self):
+        self.login()
+
     def test_index_view_with_no_articles(self):
         index = self.get_index_page()
         self.assertContains(index, 'No articles yet!')

@@ -6,6 +6,8 @@ class ModelMarkdownTests(SublogTestCase):
     def setUp(self):
         self.input = self.read_file_content('full_markdown_input.md')
         self.expected = self.read_file_content('full_markdown_expected.html')
+
+        self.login()
         self.article_page = self.post_article(TITLE_1, self.input)
         self.article_id = get_article_id(self.article_page)
 
