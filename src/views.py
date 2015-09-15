@@ -9,7 +9,7 @@ from django.views import generic
 
 from markdown import Markdown
 
-from src import ARTICLES_VISIBLE, sycache
+from src import ARTICLES_VISIBLE
 from src.models import Article, ArticleComment
 from sublog import settings
 from sublog.middleware.gfm_extensions import ImageLinkExtension
@@ -18,7 +18,6 @@ MISSING_FIELDS_ERROR = 'Required field(s) missing: %s'
 ALLOWED_PING_USER_AGENTS = ['UCBrowser1.0.0', 'curl/7.43.0']
 
 MARKDOWN = Markdown(extensions=['gfm', ImageLinkExtension()])
-ANON_INDEX_CACHE = sycache.cache
 
 
 def html_from(markdown):
@@ -32,14 +31,6 @@ def html_escape(text):
 
 class IndexView(generic.ListView):
     def get(self, request, *args, **kwargs):
-        http_response = ANON_INDEX_CACHE.data
-        if not http_response or request.user.is_authenticated():
-            http_response = self.index_page_response(request)
-            if not settings.DEBUG:
-                ANON_INDEX_CACHE.set(http_response)
-        return http_response
-
-    def index_page_response(self, request):
         return render(request, 'index.html', {
             'latest_articles': self.get_queryset()
         })
@@ -74,7 +65,6 @@ def post_article(request):
 
     art = parsed_post.result
     art.save()
-    ANON_INDEX_CACHE.invalidate()
     return HttpResponseRedirect(reverse('article', args=(art.id,)))
 
 
