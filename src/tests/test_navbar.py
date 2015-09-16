@@ -1,5 +1,6 @@
-from src.tests import get_toc, TITLE_1, CONTENT_1
+from src.tests import get_toc, TITLE_1, CONTENT_1, get_article_id
 from src.tests.sublog_test_utils import SublogTestCase
+from sublog import settings
 
 TOC_ENTRIES = ['Home', 'New article', 'About me']
 
@@ -28,3 +29,11 @@ class NavbarTests(SublogTestCase):
         self.login()
         article_page = self.post_article(TITLE_1, CONTENT_1)
         self.assertAllNavbarEntries(article_page, False, False, False)
+
+    def test_about_me_page(self):
+        self.login()
+        article_id = get_article_id(self.post_article(TITLE_1, CONTENT_1))
+        settings.ABOUT_ME_ID = article_id
+
+        about_me = self.get_about_me_page()
+        self.assertAllNavbarEntries(about_me, False, False, True)

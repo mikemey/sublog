@@ -17,8 +17,6 @@ EXP_NEW_CONTENT = '<p>new content</p>'
 USER_NAME_1 = 'user 1'
 USER_NAME_2 = 'user 2'
 
-# Extract content:
-# ================
 article_title_re = re.compile('"panel-title">([^<]*)</h3>')
 article_content_re = re.compile("""<div class="article_content">(.+?(?=</div))""", re.DOTALL)
 
@@ -102,6 +100,16 @@ def re_list(regex, content):
         result.append(found_title.strip())
 
     return result
+
+
+about_title_re = re.compile('about-title">([^<]*)</h3>')
+about_content_re = re.compile("""about-content">(.+?(?=</div))""", re.DOTALL)
+
+
+def about_me_content(response):
+    return {'title': find_or_none(about_title_re, response),
+            'content': find_or_none(about_content_re, response)
+            }
 
 
 toc_re = re.compile("""\s<a href="[^"]*">(.+?(?=</a))""", re.DOTALL)

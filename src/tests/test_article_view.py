@@ -1,9 +1,12 @@
 from src.tests import TITLE_1, get_articles
 from src.tests.sublog_test_utils import SublogTestCase
+from sublog import settings
 
 
 class ArticleViewTest(SublogTestCase):
     def setUp(self):
+        settings.ABOUT_ME_ID = 0
+
         self.article_section = 'new line\nabc def ghi jkl\n\nmno pqr stu vwx\n'
         self.full_content = self.article_section * 10
 

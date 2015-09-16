@@ -59,6 +59,9 @@ class SublogTestCase(TestCase):
     def post_article(self, title, content, follow=True):
         return self.client.post('/article/', data={'title': title, 'content': content}, follow=follow)
 
+    def get_about_me_page(self):
+        return self.client.get('/about/')
+
     def post_comment(self, article_id, title, content, name, email):
         post_data = {
             'title': title,

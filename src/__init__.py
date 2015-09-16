@@ -1,3 +1,1 @@
-# suBlog settings
-
-ARTICLES_VISIBLE = 5
+__author__ = 'mmi'

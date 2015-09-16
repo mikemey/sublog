@@ -103,3 +103,8 @@ button.post-article-btn {
   padding-bottom: 10px;
   background-color: #f4f4f4;
 }
+
+div.about-content {
+  margin-top: 28px;
+  text-align: justify;
+}

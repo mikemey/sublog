@@ -9,10 +9,10 @@ from django.views import generic
 
 from markdown import Markdown
 
-from src import ARTICLES_VISIBLE
 from src.models import Article, ArticleComment
 from sublog import settings
 from sublog.middleware.gfm_extensions import ImageLinkExtension
+from sublog.settings import ARTICLES_VISIBLE
 
 MISSING_FIELDS_ERROR = 'Required field(s) missing: %s'
 ALLOWED_PING_USER_AGENTS = ['UCBrowser1.0.0', 'curl/7.43.0']
@@ -36,7 +36,7 @@ class IndexView(generic.ListView):
         })
 
     def get_queryset(self):
-        return Article.objects.order_by('-pub_date')[:ARTICLES_VISIBLE]
+        return Article.objects.exclude(id=settings.ABOUT_ME_ID).order_by('-pub_date')[:ARTICLES_VISIBLE]
 
 
 def new_article_page(request):
@@ -48,6 +48,11 @@ def new_article_page(request):
     elif request.method == 'POST':
         return post_article(request)
     return HttpResponseNotAllowed
+
+
+def about_page(request):
+    article = Article.objects.get(id=settings.ABOUT_ME_ID)
+    return render(request, 'about.html', {'article': article})
 
 
 def get_article_page(request):
