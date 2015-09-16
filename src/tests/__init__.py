@@ -102,3 +102,22 @@ def re_list(regex, content):
         result.append(found_title.strip())
 
     return result
+
+
+toc_re = re.compile("""\s<a href="[^"]*">(.+?(?=</a))""", re.DOTALL)
+
+
+def get_toc(response):
+    raw_toc_list = re_list(toc_re, response.content)
+    toc_list = [extract_toc(toc_entry) for toc_entry in raw_toc_list]
+    return toc_list
+
+
+def extract_toc(toc_entry):
+    toc_entry = toc_entry.strip()
+    is_active = '\n\n' in toc_entry.replace(' ', '')
+    if is_active:
+        label = toc_entry.split('\n')[0]
+    else:
+        label = toc_entry
+    return {'label': label, 'is_active': is_active}

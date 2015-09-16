@@ -53,6 +53,9 @@ class SublogTestCase(TestCase):
     def get_article_page(self, article_id):
         return self.client.get('/article/%s/' % article_id)
 
+    def get_new_article_page(self):
+        return self.client.get('/article/')
+
     def post_article(self, title, content, follow=True):
         return self.client.post('/article/', data={'title': title, 'content': content}, follow=follow)
 
