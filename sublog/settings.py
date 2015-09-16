@@ -7,7 +7,7 @@ SECRET_KEY = os.environ['SECRET_KEY']
 ALLOWED_HOSTS = ['*']
 
 DEBUG = False
-SU_VERSION = 'v2.4.0'
+SU_VERSION = 'v2.4.1'
 
 ABOUT_ME_ID = 13
 ARTICLES_VISIBLE = 5
