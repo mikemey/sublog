@@ -1,7 +1,10 @@
 <div class="previewable">
-    <div class="btn-group" role="group">
+    <div class="btn-group preview-button-bar" role="group">
         <div id="write-button" class="grey-btn btn btn-default">Write</div>
         <div id="preview-button" class="grey-btn btn btn-default active-btn">Preview</div>
+        {% if store_draft %}
+        <div id="draft-store-icon" class=""></div>
+        {% endif %}
     </div>
 
     <div class="area-spacer">
@@ -14,3 +17,9 @@
 {% load staticfiles %}
 <script src="{% static 'js.cookie-2.0.3.min.js' %}"></script>
 <script src="{% static 'preview.js' %}"></script>
+
+{% if store_draft %}
+<div id="draft-save-timer" class="hidden"></div>
+<script src="https://raw.githubusercontent.com/walmik/timer.jquery/master/src/timer.jquery.js"></script>
+<script src="{% static 'draft.js' %}"></script>
+{% endif %}

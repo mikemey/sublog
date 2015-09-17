@@ -1,3 +1,5 @@
+from src.views.sycache import SyCache
+
 __author__ = 'mmi'
 from django.utils.encoding import force_text
 from django.utils.safestring import mark_safe
@@ -9,6 +11,8 @@ MISSING_FIELDS_ERROR = 'Required field(s) missing: %s'
 ALLOWED_PING_USER_AGENTS = ['UCBrowser1.0.0', 'curl/7.43.0']
 
 MARKDOWN = Markdown(extensions=['gfm', ImageLinkExtension()])
+
+DRAFT_CACHE = SyCache({'title': '', 'content': ''})
 
 
 def html_from(markdown):

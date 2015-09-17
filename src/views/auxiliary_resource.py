@@ -1,13 +1,32 @@
-from src.views import ALLOWED_PING_USER_AGENTS, html_from
-
 __author__ = 'mmi'
+import json
 
 from django.http import HttpResponse
-from django.http.response import Http404
+from django.http.response import Http404, HttpResponseNotAllowed, HttpResponseForbidden
 from django.shortcuts import render
 
+from src.views import ALLOWED_PING_USER_AGENTS, html_from, DRAFT_CACHE
 from src.models import Article
 from sublog import settings
+
+
+def draft_endpoint(request):
+    if not request.user.is_authenticated():
+        return HttpResponseForbidden()
+
+    if request.method == 'GET':
+        return HttpResponse(json.dumps(DRAFT_CACHE.get()))
+    elif request.method == 'POST':
+        return post_draft(request)
+    return HttpResponseNotAllowed
+
+
+def post_draft(request):
+    DRAFT_CACHE.set({
+        'title': request.POST['title'],
+        'content': request.POST['content']
+    })
+    return HttpResponse(status=201)
 
 
 def about_page(request):

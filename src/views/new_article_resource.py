@@ -1,14 +1,12 @@
+__author__ = 'mmi'
 from django.core.urlresolvers import reverse
-
 from django.http.response import HttpResponseRedirect, HttpResponseNotAllowed
 
 from django.shortcuts import render, redirect
 
 from src.models import Article
-from src.views import MISSING_FIELDS_ERROR, html_from, get_post_field, ParsePostResult
+from src.views import MISSING_FIELDS_ERROR, html_from, get_post_field, ParsePostResult, DRAFT_CACHE
 from sublog import settings
-
-__author__ = 'mmi'
 
 
 def new_article_page(request):
@@ -35,6 +33,7 @@ def post_article(request):
             'error_message': parsed_post.error_message
         })
 
+    DRAFT_CACHE.invalidate()
     art = parsed_post.result
     art.save()
     return HttpResponseRedirect(reverse('article', args=(art.id,)))

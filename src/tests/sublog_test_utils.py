@@ -70,3 +70,13 @@ class SublogTestCase(TestCase):
             'content': content
         }
         return self.client.post('/article/%s/comment/' % article_id, data=post_data, follow=True)
+
+    def get_draft(self):
+        return self.client.get('/article/draft/')
+
+    def post_draft(self, title, content):
+        post_data = {
+            'title': title,
+            'content': content
+        }
+        return self.client.post('/article/draft/', data=post_data, follow=True)
