@@ -55,6 +55,9 @@ $(function() {
           success: function (data) {
             content_changed = false;
             saveFinish();
+          },
+          error: function(data) {
+            timer.timer('remove');
           }
       });
     }
