@@ -19,3 +19,7 @@ application = get_wsgi_application()
 
 logging.getLogger('sublog').info('----------------------')
 logging.getLogger('sublog').info('server started. %s' % settings.SU_VERSION)
+
+
+def shutdown_hook():
+    logging.getLogger('sublog').info('server stopped.')
