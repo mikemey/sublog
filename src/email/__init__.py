@@ -6,23 +6,35 @@ from smtplib import SMTP
 logger = logging.getLogger('sublog.mail')
 
 
+def pull_in_variables():
+    import subprocess
+
+    command = ['bash', '-c', 'source deploy/sublog_variables.sh && env']
+    proc = subprocess.Popen(command, stdout=subprocess.PIPE)
+    for line in proc.stdout:
+        (key, _, value) = line.partition("=")
+        os.environ[key] = value.strip()
+    proc.communicate()
+
+
 class MailSend:
     def __init__(self):
         self.params = None
 
     def check(self):
         if not self.params:
-            if 'DRC_SMTP_SERVER' not in os.environ:
+            pull_in_variables()
+            if 'MAIL_SMTP_SERVER' not in os.environ:
                 msg = "email variables not set!"
                 logger.error(msg)
                 raise EnvironmentError(msg)
 
             self.params = {
-                'smtp_server': os.environ['DRC_SMTP_SERVER'],
-                'sender': os.environ['DRC_SENDER'],
+                'smtp_server': os.environ['MAIL_SMTP_SERVER'],
+                'sender': os.environ['MAIL_SENDER'],
 
-                'username': os.environ['DRC_USERNAME'],
-                'password': os.environ['DRC_PASSWORD'],
+                'username': os.environ['MAIL_USERNAME'],
+                'password': os.environ['MAIL_PASSWORD'],
 
             }
 
