@@ -71,6 +71,6 @@ def simple_user_agent(request):
 
 
 def user_name(request):
-    if request.user and request.user.is_authenticated():
+    if hasattr(request, 'user') and request.user.is_authenticated():
         return '(%s)' % (request.user.first_name or request.user.username)
     return ''
