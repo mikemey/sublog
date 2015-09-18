@@ -1,3 +1,4 @@
+from src.service.mail_gen import notify_article_author
 from src.views import get_post_field, MISSING_FIELDS_ERROR, ParsePostResult, html_from
 
 __author__ = 'mmi'
@@ -30,14 +31,8 @@ def post_comment(request, article_id):
         })
 
     store_comment(art, parsed_post.result)
+    notify_article_author(art, parsed_post.result)
     return HttpResponseRedirect(reverse('article', args=(article_id,)) + '#comments')
-
-
-@transaction.atomic
-def store_comment(art, article_comment):
-    article_comment.save()
-    art.comments_count = art.comments.count()
-    art.save()
 
 
 def parse_comment_post(art, post_data):
@@ -61,3 +56,10 @@ def parse_comment_post(art, post_data):
         title=title
     )
     return ParsePostResult(art_comment)
+
+
+@transaction.atomic
+def store_comment(art, article_comment):
+    article_comment.save()
+    art.comments_count = art.comments.count()
+    art.save()

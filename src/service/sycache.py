@@ -22,6 +22,13 @@ class SyCache:
         if key not in self.data:
             self.data[key] = CacheEntry(self.default)
 
+    def get_or_set(self, key, value):
+        en = self.get(key)
+        if not en:
+            en = value
+            self.set(key, value)
+        return en
+
 
 class CacheEntry:
     def __init__(self, value, lock=threading.Lock()):

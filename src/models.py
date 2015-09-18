@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.fields import TextField
 from django.utils import timezone
@@ -9,6 +10,7 @@ class Article(models.Model):
     comments_count = models.IntegerField('# of comments', default=0)
     content = TextField()
     rendered = TextField()
+    author = models.ForeignKey(User, related_name='articles')
 
     def sorted_comments(self):
         return self.comments.order_by('-pub_date')

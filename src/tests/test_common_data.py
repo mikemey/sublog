@@ -15,12 +15,12 @@ class CommonDataTests(SublogTestCase):
 
     def test_version_on_article_page(self):
         self.login()
-        self.post_article(self.client, TITLE_1, CONTENT_1)
+        self.post_article(TITLE_1, CONTENT_1)
         article_page = self.get_article_page(1)
         self.assertEquals(test_version, get_version(article_page))
 
     def test_version_after_posting_article_redirect(self):
-        new_article = self.post_article(self.client, NEW_TITLE, NEW_CONTENT)
+        new_article = self.post_article(NEW_TITLE, NEW_CONTENT)
         self.assertEquals(test_version, get_version(new_article))
 
     def test_user_name_shown(self):
@@ -33,7 +33,7 @@ class CommonDataTests(SublogTestCase):
 
     def test_logout_redirects_to_next_url(self):
         self.login()
-        self.post_article(self.client, TITLE_1, CONTENT_1)
+        self.post_article(TITLE_1, CONTENT_1)
         logout_target = '/another_endpoint'
         redirect_page = self.logout(logout_target)
         self.assertRedirects(redirect_page, logout_target, fetch_redirect_response=False)

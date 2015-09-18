@@ -7,3 +7,6 @@
 
 # email account details:
 deploy/sublog_variables.sh
+
+# migrations are deployment specific:
+src/migrations

@@ -25,7 +25,7 @@ def get_article_page(request):
 
 
 def post_article(request):
-    parsed_post = parse_article_post(request.POST)
+    parsed_post = parse_article_post(request)
 
     if parsed_post.error_message:
         return render(request, 'new_article.html', {
@@ -39,11 +39,11 @@ def post_article(request):
     return HttpResponseRedirect(reverse('article', args=(art.id,)))
 
 
-def parse_article_post(post_data):
+def parse_article_post(request):
     missing = []
     collected = {}
-    title = get_post_field(post_data, 'title', missing, collected)
-    content = get_post_field(post_data, 'content', missing, collected)
+    title = get_post_field(request.POST, 'title', missing, collected)
+    content = get_post_field(request.POST, 'content', missing, collected)
 
     if missing:
         error_message = MISSING_FIELDS_ERROR % ', '.join(missing)
@@ -52,6 +52,7 @@ def parse_article_post(post_data):
     art = Article(
         title=title,
         content=content,
-        rendered=html_from(content)
+        rendered=html_from(content),
+        author=request.user
     )
     return ParsePostResult(art)

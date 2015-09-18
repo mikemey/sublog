@@ -11,12 +11,13 @@ from src.models import Article, ArticleComment
 #     com.content = com.content.raw
 #     com.save()
 
-def save_article(title, pub_date, content, comments_count):
+def save_article(title, pub_date, content, comments_count, author_id='xyz'):
     ar = Article(
         content=content,
         title=title,
         pub_date=pub_date,
-        comments_count=comments_count
+        comments_count=comments_count,
+        author=author_id
     )
     ar.save()
     return ar
