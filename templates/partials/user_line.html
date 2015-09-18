@@ -4,7 +4,7 @@
 <div class="container-fluid user-name">
     <div class="row">
         <div class="col-xs-5">
-            <span id="user">Logged in: {{ request.user.first_name }}</span>
+            <span id="user">Logged in: {{ request.user.first_name|default:request.user.username }}</span>
         </div>
         <div class="col-xs-offset-6 col-xs-1">
             <form class="logout" name="logout_form" action="{% url 'logout' %}" method="POST">

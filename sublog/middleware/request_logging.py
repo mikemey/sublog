@@ -10,10 +10,12 @@ class RequestLoggingMiddleware(object):
     def __init__(self):
         self.logger = logging.getLogger('sublog.log')
 
-    def log_message(self, method, path, response_status, time, user_ip, user_agent, post_msg=None):
-        msg = """%-4s %-13s %s (%3sms) [%s, '%s', '%s', '%s']""" % \
+    def log_message(self, method, path, response_status, time,
+                    user_ip, user_name, user_agent,
+                    post_msg=None):
+        msg = """%-4s %-13s %s (%3sms) [%s, '%s', '%s', '%s'] %s""" % \
               (method, path, response_status, time, user_ip,
-               user_agent[0], user_agent[1], user_agent[2])
+               user_agent[0], user_agent[1], user_agent[2], user_name)
 
         if post_msg:
             msg += ' post-msg: [%s]' % post_msg
@@ -33,6 +35,7 @@ class RequestLoggingMiddleware(object):
         self.log_message(method, path, status,
                          time.microseconds / 1000,
                          client_ip(request),
+                         user_name(request),
                          simple_user_agent(request),
                          post_data_from(request))
         return response
@@ -65,3 +68,9 @@ def simple_user_agent(request):
         return os, device, browser
 
     return UNKNOWN_STRING, UNKNOWN_STRING, UNKNOWN_STRING
+
+
+def user_name(request):
+    if request.user.is_authenticated():
+        return '(%s)' % (request.user.first_name or request.user.username)
+    return ''
