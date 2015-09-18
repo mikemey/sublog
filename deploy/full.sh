@@ -35,7 +35,7 @@ if [ -z $SUBLOG_PID ]; then
   log "no process named [$SUBLOG_NAME] found."
 else
   log "shutting down $SUBLOG_NAME process: $SUBLOG_PID"
-  kill $SUBLOG_PID >> /dev/null
+  kill -QUIT $SUBLOG_PID >> /dev/null
 fi
 
 if [ "$1" == "-f" ]; then

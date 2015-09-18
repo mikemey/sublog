@@ -15,5 +15,5 @@ if __name__ == "__main__":
 
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "sublog.settings")
 
-    signal.signal(signal.SIGTERM, signal_term_handler)
+    signal.signal(signal.SIGHUP, signal_term_handler)
     execute_from_command_line(sys.argv)
