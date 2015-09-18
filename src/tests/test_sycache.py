@@ -1,5 +1,5 @@
 from src.tests.sublog_test_utils import SublogTestCase
-from src.views.sycache import SyCache
+from src.service.sycache import SyCache
 
 
 class DraftTests(SublogTestCase):

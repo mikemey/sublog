@@ -4,3 +4,6 @@
 
 *.pyc
 *.sqlite3
+
+# email account details:
+deploy/sublog_variables.sh

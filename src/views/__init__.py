@@ -1,4 +1,4 @@
-from src.views.sycache import SyCache
+from src.service.sycache import SyCache
 
 __author__ = 'mmi'
 from django.utils.encoding import force_text
