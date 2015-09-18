@@ -38,6 +38,9 @@ else
   kill -QUIT $SUBLOG_PID >> /dev/null
 fi
 
+log "creating database backup..."
+cp db.sqlite3 db.sqlite3.bak
+
 if [ "$1" == "-f" ]; then
   log "deleting static files in folder [$WEB_DIR/]..."
   cd $WEB_DIR
