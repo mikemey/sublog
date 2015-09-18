@@ -1,13 +1,12 @@
 #!/usr/bin/env python
+import logging
 import os
 import sys
 import signal
 
-from sublog import wsgi
-
 
 def signal_term_handler(rec_signal, frame):
-    wsgi.shutdown_hook()
+    logging.getLogger('sublog').info('server stopped.')
     sys.exit(0)
 
 
