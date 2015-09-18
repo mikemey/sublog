@@ -9,7 +9,7 @@ ALLOWED_HOSTS = ['*']
 DEBUG = False
 SU_VERSION = 'v2.8.0'
 
-ABOUT_ME_ID = 13
+ABOUT_ME_ID = 1
 ARTICLES_VISIBLE = 5
 
 STATIC_URL = '/static/'
