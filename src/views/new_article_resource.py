@@ -33,7 +33,7 @@ def post_article(request):
             'error_message': parsed_post.error_message
         })
 
-    DRAFT_CACHE.invalidate()
+    DRAFT_CACHE.invalidate(request.user.id)
     art = parsed_post.result
     art.save()
     return HttpResponseRedirect(reverse('article', args=(art.id,)))

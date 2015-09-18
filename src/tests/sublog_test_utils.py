@@ -11,11 +11,11 @@ TEST_USER_NAME = 'tester'
 TEST_USER_PW = 'dad_asf'
 
 
-def create_test_user():
+def create_test_user(user=TEST_USER_ID, password=TEST_USER_PW):
     try:
-        User.objects.get_by_natural_key(TEST_USER_ID)
+        User.objects.get_by_natural_key(user)
     except ObjectDoesNotExist:
-        user = User.objects.create_user(TEST_USER_ID, 'not@set.com', TEST_USER_PW, first_name=TEST_USER_NAME)
+        user = User.objects.create_user(user, 'not@set.com', password, first_name=TEST_USER_NAME)
         user.save()
 
 
@@ -34,12 +34,12 @@ class SublogTestCase(TestCase):
 
     # HTTP request/responses
     # ==========================
-    def login(self):
-        create_test_user()
+    def login(self, user=TEST_USER_ID, password=TEST_USER_PW):
+        create_test_user(user, password)
         next_url = '/somewhere/'
         response = self.client.post(reverse('login'),
-                                    {'username': TEST_USER_ID,
-                                     'password': TEST_USER_PW,
+                                    {'username': user,
+                                     'password': password,
                                      'next': next_url
                                      })
         self.assertRedirects(response, next_url, fetch_redirect_response=False)

@@ -2,23 +2,39 @@ import threading
 
 
 class SyCache:
-    def __init__(self, default=None, lock=threading.Lock()):
-        self.data = default
+    def __init__(self, default=None):
+        self.data = {}
         self.default = default
+
+    def invalidate(self, key):
+        self.ensure_entry(key)
+        self.data[key].set(self.default)
+
+    def set(self, key, value):
+        self.ensure_entry(key)
+        self.data[key].set(value)
+
+    def get(self, key):
+        self.ensure_entry(key)
+        return self.data[key].get()
+
+    def ensure_entry(self, key):
+        if key not in self.data:
+            self.data[key] = CacheEntry(self.default)
+
+
+class CacheEntry:
+    def __init__(self, value, lock=threading.Lock()):
         self.lock = lock
-
-    def invalidate(self):
-        self.lock.acquire()
-        self.data = self.default
-        self.lock.release()
-
-    def set(self, data):
-        self.lock.acquire()
-        self.data = data
-        self.lock.release()
+        self.value = value
 
     def get(self):
         self.lock.acquire()
-        data = self.data
+        val = self.value
         self.lock.release()
-        return data
+        return val
+
+    def set(self, value):
+        self.lock.acquire()
+        self.value = value
+        self.lock.release()

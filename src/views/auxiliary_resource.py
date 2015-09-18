@@ -15,14 +15,19 @@ def draft_endpoint(request):
         return HttpResponseForbidden()
 
     if request.method == 'GET':
-        return HttpResponse(json.dumps(DRAFT_CACHE.get()))
+        return get_draft(request)
     elif request.method == 'POST':
         return post_draft(request)
     return HttpResponseNotAllowed
 
 
+def get_draft(request):
+    cached_draft = DRAFT_CACHE.get(request.user.id)
+    return HttpResponse(json.dumps(cached_draft))
+
+
 def post_draft(request):
-    DRAFT_CACHE.set({
+    DRAFT_CACHE.set(request.user.id, {
         'title': request.POST['title'],
         'content': request.POST['content']
     })
