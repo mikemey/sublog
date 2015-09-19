@@ -84,3 +84,12 @@ textarea.write-area:focus {
   margin-top: 5px;
   margin-right: 5px;
 }
+
+#write-button.write-focus {
+  border-color: #66afe9;
+}
+
+#preview-button.write-focus {
+  border-color: #66afe9;
+  border-left-color: #b0b0b0;
+}

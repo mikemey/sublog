@@ -10,6 +10,16 @@ $(function() {
     content_changed = true;
   });
 
+  writeArea.focus(function() {
+    writeButton.addClass('write-focus');
+    previewButton.addClass('write-focus');
+  });
+
+  writeArea.focusout(function() {
+    writeButton.removeClass('write-focus');
+    previewButton.removeClass('write-focus');
+  });
+
   writeButton.click(function() {
     swap(previewButton, previewArea, writeButton, writeArea);
     writeArea.focus();
