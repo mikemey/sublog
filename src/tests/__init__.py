@@ -18,7 +18,7 @@ USER_NAME_1 = 'user 1'
 USER_NAME_2 = 'user 2'
 
 article_title_re = re.compile('"panel-title">([^<]*)</h3>')
-article_content_re = re.compile("""<div class="article_content">(.+?(?=</div))""", re.DOTALL)
+article_content_re = re.compile("""<div class="article_content markdown-body">(.+?(?=</div))""", re.DOTALL)
 
 
 def get_articles(response):
@@ -38,7 +38,7 @@ def get_articles(response):
 
 comment_title_re = re.compile('"panel-title">([^<]*)</h4>')
 comment_name_re = re.compile('list-group-item">([^<]*)<span')
-comment_content_re = re.compile('<!--comment-content-start-->\s*<div class="panel-body">'
+comment_content_re = re.compile('<!--comment-content-start-->\s*<div class="panel-body markdown-body">'
                                 '(.+?(?=</div>\s*<!--comment-content-end-->))', re.DOTALL)
 
 
@@ -103,7 +103,7 @@ def re_list(regex, content):
 
 
 about_title_re = re.compile('about-title">([^<]*)</h3>')
-about_content_re = re.compile("""about-content">(.+?(?=</div))""", re.DOTALL)
+about_content_re = re.compile("""about-content markdown-body">(.+?(?=</div))""", re.DOTALL)
 
 
 def about_me_content(response):

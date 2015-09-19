@@ -108,3 +108,36 @@ div.about-content {
   margin-top: 28px;
   text-align: justify;
 }
+
+.markdown-body table {
+    display: block;
+    overflow: auto;
+    width: 100%;
+    word-break: keep-all;
+}
+
+.markdown-body p, .markdown-body blockquote, .markdown-body ul,
+.markdown-body ol, .markdown-body dl, .markdown-body table, .markdown-body pre {
+    margin-bottom: 16px;
+    margin-top: 0;
+}
+
+.markdown-body table tr {
+    background-color: #fff;
+    border-top: 1px solid #ccc;
+}
+
+.markdown-body table tr:nth-child(2n) {
+    background-color: #f8f8f8;
+}
+
+.markdown-body table th {
+    background-color: #e0e0e0;
+    border: 1px solid #bbb;
+    padding: 6px 13px;
+}
+
+.markdown-body table td {
+    border: 1px solid #ddd;
+    padding: 6px 13px;
+}

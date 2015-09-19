@@ -7,7 +7,7 @@
 <h3 class="col-sm-3 about-title">{{ article.title }}</h3>
 
 {% autoescape off %}
-<div class="col-sm-9 about-content">
+<div class="col-sm-9 about-content markdown-body">
     {{ article.rendered }}
 </div>
 {% endautoescape %}
