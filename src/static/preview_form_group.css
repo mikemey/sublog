@@ -45,7 +45,7 @@ textarea.new-article-content {
 }
 
 textarea.new-comment-content {
-  min-height: 200px;
+  min-height: 350px;
 }
 
 textarea.write-area {
