@@ -20,7 +20,7 @@
                 </div>
                 <ul class="list-group">
                     <li class="small text-muted list-group-item">{{ comment.user_name }}
-                        <span class="pull-right">{{ comment.pub_date }}</span>
+                        <span class="pull-right">{{ comment.pub_date|date:"d N Y H:i" }}</span>
                     </li>
                 </ul>
 

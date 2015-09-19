@@ -1,11 +1,11 @@
 <div class="article-panel panel panel-default">
     <div class="panel-heading">
-        <h3 class="panel-title">{{ article.title }}
-        </h3>
+        <span class="small text-muted pull-right">{{ article.pub_date|date:"d N Y" }}</span>
+
+        <h3 class="panel-title">{{ article.title }}</h3>
     </div>
 
     <div class="panel-body">
-        <span class="small pull-right">{{ article.pub_date }}</span>
 
         {% autoescape off %}
         <div class="article_content markdown-body">
