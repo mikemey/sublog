@@ -22,18 +22,14 @@
 {% include "partials/header.html" %}
 
 <div class="mobile-spacer">
-{% include "partials/user_line.html" %}
-</div>
+    {% include "partials/user_line.html" %}
 
-<div class="mobile-spacer">
     <div class="container-fluid">
         <div class="row">
             {% block content %}{% endblock %}
         </div>
     </div>
 
-</div>
-<div class="mobile-spacer">
     {% include "partials/footer.html" %}
 </div>
 
