@@ -7,11 +7,11 @@
         {% endif %}
     </div>
 
-    <div class="area-spacer">
-        <textarea id="write-area" class="write-area new-{{ type }}-content form-control"
-                  placeholder="your {{ type }}..." name="content">{{ content }}</textarea>
+    <textarea id="write-area" class="write-area new-{{ type }}-content form-control"
+              placeholder="your {{ type }}..." name="content">{{ content }}</textarea>
 
-        <div id="preview-area" class="hidden preview-area"></div>
+    <div id="preview-parent" class="hidden preview-parent">
+        <div id="preview-area" class="preview-area"></div>
     </div>
 </div>
 {% load staticfiles %}

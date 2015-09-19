@@ -4,6 +4,7 @@ $(function() {
   var writeButton = $('#write-button');
   var writeArea = $('#write-area');
   var previewButton = $('#preview-button');
+  var previewParent = $('#preview-parent');
   var previewArea = $('#preview-area');
 
   writeArea.keypress(function() {
@@ -21,17 +22,17 @@ $(function() {
   });
 
   writeButton.click(function() {
-    swap(previewButton, previewArea, writeButton, writeArea);
+    swap(previewButton, previewParent, writeButton, writeArea);
     writeArea.focus();
   });
 
   previewButton.click(function() {
-    swap(writeButton, writeArea, previewButton, previewArea);
+    swap(writeButton, writeArea, previewButton, previewParent);
   });
 
   checkMarkdownUpdate = function() {
     if (content_changed && writeArea.outerHeight()) {
-      previewArea.css('min-height', writeArea.outerHeight());
+      previewParent.css('min-height', writeArea.outerHeight());
     }
     if(writeArea.val().trim() === '') {
       previewArea.html('<p>Nothing to preview<p>');
