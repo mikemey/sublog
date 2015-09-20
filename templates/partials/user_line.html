@@ -1,7 +1,7 @@
 {% if request.user.is_authenticated %}
 
 {% load staticfiles %}
-<div class="row">
+<div class="row user-line">
     <div class="col-xs-5">
         <span id="user">Logged in: {{ request.user.first_name|default:request.user.username }}</span>
     </div>
