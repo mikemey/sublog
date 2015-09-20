@@ -64,7 +64,7 @@ class ArticleViewTest(SublogTestCase):
 
         link = get_link_func(self.get_article_page(cur_article_id))
         self.assertEquals(expected_href, link['href'])
-        self.assertEquals(expected_label, link['label'])
+        self.assertEquals(expected_label, link['label'].strip())
 
     def assert_no_link(self, cur_article_id, get_link_func):
         link = get_link_func(self.get_article_page(cur_article_id))

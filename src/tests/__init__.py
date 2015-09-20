@@ -131,7 +131,7 @@ def extract_toc(toc_entry):
     return {'label': label, 'is_active': is_active}
 
 
-prev_link_re = re.compile("""class="previous" href="([^"]*)">([^<]*)""")
+prev_link_re = re.compile("""class="previous" href="([^"]*)">.+?(?=</i>)</i>([^<]*)""", re.DOTALL)
 next_link_re = re.compile("""class="next" href="([^"]*)">([^<]*)""")
 
 

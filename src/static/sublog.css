@@ -34,24 +34,28 @@ div.jumbotron {
 
 nav.navbar {
   border-top: none;
-  margin-bottom: 0;
-}
-
-a.navbar-brand {
-  padding: 0px;
 }
 
 div.user-line {
   font-size: 12px;
-  margin-top: 10px;
 }
 
 form.logout {
   text-align: right;
 }
 
-.navbar-brand img {
-  max-height: 100%;
+div.article-navigation-left {
+  border-right: 1px solid #337ab7;
+  text-align: right;
+}
+
+div.article-navigation-middle {
+  text-align: center;
+}
+
+div.article-navigation-right {
+  border-left: 1px solid #337ab7;
+  text-align: left;
 }
 
 div.footer-row {

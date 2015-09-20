@@ -1,14 +1,15 @@
-<div class="row">
-    <div class="row">
-        {% if prev_article %}
-        <div class="col-xs-6">
-            <a class="previous" href="/article/{{ prev_article.id }}/">{{ prev_article.title }}</a>
-        </div>
-        {% endif %}
-        {% if next_article %}
-        <div class="col-xs-push-6 col-xs-6">
-            <a class="next" href="/article/{{ next_article.id }}/">{{ next_article.title }}</a>
-        </div>
-        {% endif %}
-    </div>
+{% if prev_article %}
+<div class="col-xs-6 article-navigation-left">
+    <a class="previous" href="/article/{{ prev_article.id }}/">
+        <i class="glyphicon glyphicon-menu-left"></i>
+        {{ prev_article.title }}
+    </a>
 </div>
+{% endif %}
+{% if next_article %}
+<div class="col-xs-6 {% if not prev_article %} col-xs-push-6 {% endif %} article-navigation-right">
+    <a class="next" href="/article/{{ next_article.id }}/">{{ next_article.title }}
+        <i class="glyphicon glyphicon-menu-right"></i>
+    </a>
+</div>
+{% endif %}
