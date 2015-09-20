@@ -5,6 +5,8 @@
 {% block content %}
 
 <div class="row">
+    {% include 'partials/article_navbar.html' %}
+
     {% include 'partials/article_detail.html' with preview=False %}
 
     <a id="new-comment"></a>

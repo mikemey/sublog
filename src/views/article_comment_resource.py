@@ -1,3 +1,5 @@
+from django.core.exceptions import ObjectDoesNotExist
+
 from src.service.mail_gen import notify_article_author
 from src.views import get_post_field, MISSING_FIELDS_ERROR, ParsePostResult, html_from
 
@@ -13,9 +15,21 @@ from src.models import Article, ArticleComment
 
 def get_article(request, article_id):
     art = get_object_or_404(Article, pk=article_id)
+    prev_article = get_or_none(art.get_previous_by_pub_date)
+    next_article = get_or_none(art.get_next_by_pub_date)
+
     return render(request, 'article.html', {
-        'article': art
+        'article': art,
+        'prev_article': prev_article,
+        'next_article': next_article
     })
+
+
+def get_or_none(query):
+    try:
+        return query()
+    except ObjectDoesNotExist:
+        return None
 
 
 def post_comment(request, article_id):

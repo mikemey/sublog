@@ -129,3 +129,23 @@ def extract_toc(toc_entry):
     else:
         label = toc_entry
     return {'label': label, 'is_active': is_active}
+
+
+prev_link_re = re.compile("""class="previous" href="([^"]*)">([^<]*)""")
+next_link_re = re.compile("""class="next" href="([^"]*)">([^<]*)""")
+
+
+def get_previous_link(response):
+    return get_link(prev_link_re, response)
+
+
+def get_next_link(response):
+    return get_link(next_link_re, response)
+
+
+def get_link(link_re, response):
+    search = link_re.search(response.content)
+    if search:
+        return {'href': search.group(1),
+                'label': search.group(2)}
+    return None

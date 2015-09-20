@@ -1,4 +1,4 @@
-from django.template import loader, Context
+from django.template import loader
 
 from src.email import MailSend
 from src.service import sycache
@@ -28,9 +28,9 @@ def render_email_body(ctx):
 
 def with_context_from(art, comment):
     username = art.author.first_name or art.author.username
-    return Context({
+    return {
         'article_id': art.id,
         'username': username,
         'commenter': comment.user_name,
         'title': art.title,
-    })
+    }

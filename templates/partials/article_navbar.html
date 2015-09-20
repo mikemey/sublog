@@ -1,0 +1,14 @@
+<div class="row">
+    <div class="row">
+        {% if prev_article %}
+        <div class="col-xs-6">
+            <a class="previous" href="/article/{{ prev_article.id }}/">{{ prev_article.title }}</a>
+        </div>
+        {% endif %}
+        {% if next_article %}
+        <div class="col-xs-push-6 col-xs-6">
+            <a class="next" href="/article/{{ next_article.id }}/">{{ next_article.title }}</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
