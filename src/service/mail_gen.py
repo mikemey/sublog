@@ -3,41 +3,34 @@ from django.template import loader, Context
 from src.email import MailSend
 from src.service import sycache
 
-mail_template = loader.get_template('partials/mail_template.html')
-
-mail_cache = sycache.SyCache()
-mck = 'mck'
-
 email_subj_template = """New comment on article '%s'"""
+email_template = loader.get_template('partials/mail_template.html')
+
+send_mail_cache = sycache.SyCache()
+mck = 'mck'
 
 
 def mail():
-    return mail_cache.get_or_set(mck, MailSend())
+    return send_mail_cache.get_or_set(mck, MailSend())
 
 
 def notify_article_author(art, comment):
-    article_id, user_name, commenter, title = details_from(art, comment)
-
     email_dest = art.author.email
-    email_subj = email_subj_template % title
-    email_body = mail_content(article_id, user_name, commenter, title)
+    email_subj = email_subj_template % art.title
+    email_body = render_email_body(with_context_from(art, comment))
+
     mail().send(email_dest, email_subj, email_body)
 
 
-def details_from(art, comment):
+def render_email_body(ctx):
+    return email_template.render(ctx)
+
+
+def with_context_from(art, comment):
     author = art.author
-    article_id = art.id
-    user_name = author.first_name or author.username
-    commenter = comment.user_name
-    title = art.title
-    return article_id, user_name, commenter, title
-
-
-def mail_content(article_id, user_name, commenter, title):
-    ctx = Context({
-        'article_id': article_id,
-        'username': user_name,
-        'commenter': commenter,
-        'title': title,
+    return Context({
+        'article_id': art.id,
+        'username': author.first_name or author.username,
+        'commenter': comment.user_name,
+        'title': art.title,
     })
-    return mail_template.render(ctx)

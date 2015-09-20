@@ -35,14 +35,12 @@ class CommentsTests(SublogTestCase):
 
         self.login('blu_bdi_blu', 'some_pw', email_dest, first_name)
         article_id = get_article_id(self.post_article(article_title, CONTENT_1))
-        article_url = 'http://memoria.zapto.org/article/%s/' % article_id
+
+        expected_content = self.read_file_content('test_sent_mail_content.html')
+        expected_content = expected_content.replace('{article_id}', article_id)
 
         self.post_comment(article_id, TITLE_1, CONTENT_2, commenter, 'bla@blu.com', mail_mock)
 
         self.assertTrue(email_dest, mail_mock.get_destination())
         self.assertTrue(email_subj, mail_mock.get_subject())
-
-        self.assertTrue(first_name in mail_mock.get_content())
-        self.assertTrue(commenter in mail_mock.get_content())
-        self.assertTrue(article_url in mail_mock.get_content())
-        self.assertTrue(article_title in mail_mock.get_content())
+        self.compare_contents(expected_content, mail_mock.get_content())

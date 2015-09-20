@@ -7,7 +7,7 @@ from django.core.urlresolvers import reverse
 from django.test.testcases import TestCase
 
 from src.email import MailSend
-from src.service.mail_gen import mail_cache, mck
+from src.service.mail_gen import send_mail_cache, mck
 
 TEST_FOLDER = '/Users/mmi/github/sublog/assets/test/'
 TEST_USER_ID = 't'
@@ -90,7 +90,7 @@ class SublogTestCase(TestCase):
         return self.client.get('/about/')
 
     def post_comment(self, article_id, title, content, name, email, mail_mock=MailSendMock()):
-        mail_cache.set(mck, mail_mock)
+        send_mail_cache.set(mck, mail_mock)
         post_data = {
             'title': title,
             'name': name,
