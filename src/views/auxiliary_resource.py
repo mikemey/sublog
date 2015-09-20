@@ -1,4 +1,3 @@
-__author__ = 'mmi'
 import json
 
 from django.http import HttpResponse

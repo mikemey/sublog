@@ -1,4 +1,3 @@
-__author__ = 'mmi'
 from django.core.urlresolvers import reverse
 from django.http.response import HttpResponseRedirect, HttpResponseNotAllowed
 

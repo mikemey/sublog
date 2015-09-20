@@ -1,10 +1,8 @@
-from src.service.sycache import SyCache
-
-__author__ = 'mmi'
 from django.utils.encoding import force_text
 from django.utils.safestring import mark_safe
 from markdown import Markdown
 
+from src.service.sycache import SyCache
 from sublog.middleware.gfm_extensions import ImageLinkExtension
 
 MISSING_FIELDS_ERROR = 'Required field(s) missing: %s'

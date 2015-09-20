@@ -1,15 +1,12 @@
 from django.core.exceptions import ObjectDoesNotExist
 
-from src.service.mail_gen import notify_article_author
-from src.views import get_post_field, MISSING_FIELDS_ERROR, ParsePostResult, html_from
-
-__author__ = 'mmi'
-
 from django.core.urlresolvers import reverse
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.db import transaction
 
+from src.service.mail_gen import notify_article_author
+from src.views import get_post_field, MISSING_FIELDS_ERROR, ParsePostResult, html_from
 from src.models import Article, ArticleComment
 
 

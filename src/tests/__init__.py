@@ -1,5 +1,3 @@
-__author__ = 'mmi'
-
 import re
 
 TITLE_1 = 'title 1'
