@@ -26,14 +26,15 @@ class CommentsTests(SublogTestCase):
         self.assertEquals(content, comment['content'])
 
     def test_mail_sent_when_commented(self):
-        first_name = 'my name'
+        user_name = 'Blu_bdi_blu'
+        first_name = ''
         article_title = 'some new title'
         email_subj = """New comment on article '%s'""" % article_title
         email_dest = 'lalal@lolo.com'
         commenter = 'some commenter'
         mail_mock = MailSendMock()
 
-        self.login('blu_bdi_blu', 'some_pw', email_dest, first_name)
+        self.login(user_name, 'some_pw', email_dest, first_name)
         article_id = get_article_id(self.post_article(article_title, CONTENT_1))
 
         expected_content = self.read_file_content('test_sent_mail_content.html')

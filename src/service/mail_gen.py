@@ -27,10 +27,10 @@ def render_email_body(ctx):
 
 
 def with_context_from(art, comment):
-    author = art.author
+    username = art.author.first_name or art.author.username
     return Context({
         'article_id': art.id,
-        'username': author.first_name or author.username,
+        'username': username,
         'commenter': comment.user_name,
         'title': art.title,
     })
