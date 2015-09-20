@@ -13,23 +13,20 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css">
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </head>
 
 <body class="default-text-color">
 
-{% include "partials/header.html" %}
+{% include "partials/jumbo.html" %}
 
-<div class="mobile-spacer">
+<div class="container-fluid">
+    {% include "partials/toc.html" %}
+</div>
+
+<div class="container-fluid mobile-spacer">
     {% include "partials/user_line.html" %}
-
-    <div class="container-fluid">
-        <div class="row">
-            {% block content %}{% endblock %}
-        </div>
-    </div>
-
+    {% block content %}{% endblock %}
     {% include "partials/footer.html" %}
 </div>
 

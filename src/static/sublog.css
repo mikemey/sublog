@@ -1,11 +1,13 @@
 html {
   width: 70%;
   margin: 0 auto;
+  min-width: 768px;
 }
 
-@media ( max-width : 600px) {
+@media ( max-width : 768px) {
   html {
     width: 100%;
+    min-width: 0px;
   }
 
   div.mobile-spacer {
@@ -53,7 +55,8 @@ form.logout {
 }
 
 div.footer-row {
-  margin: 20px 0;
+  margin-top: 20px;
+  margin-bottom: 15px;
 }
 
 div.footer-text {

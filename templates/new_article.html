@@ -4,6 +4,7 @@
 
 {% block content %}
 
+<div class="row">
 <form action="{% url 'new_article' %}" class="form-horizontal" method="POST">
     {% csrf_token %}
 
@@ -36,4 +37,5 @@
         </div>
     </div>
 </form>
+</div>
 {% endblock %}

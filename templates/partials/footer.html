@@ -1,14 +1,12 @@
 {% load staticfiles %}
-<div class="container-fluid">
-    <div class="row footer-row">
-        <div class="footer-text col-sm-1">
-            <span id="version">{{ version }}</span>
-        </div>
-        <div class="footer-text col-sm-3 col-sm-push-6">
-            <span>powered by</span>
-        </div>
-        <div class="sublogo col-sm-1 col-sm-push-6">
-            <img class="sublogo" src="{% static 'sublog.png' %}"/>
-        </div>
+<div class="row footer-row">
+    <div class="footer-text col-sm-1">
+        <span id="version">{{ version }}</span>
+    </div>
+    <div class="footer-text col-sm-3 col-sm-push-6">
+        <span>powered by</span>
+    </div>
+    <div class="sublogo col-sm-1 col-sm-push-6">
+        <img class="sublogo" src="{% static 'sublog.png' %}"/>
     </div>
 </div>
