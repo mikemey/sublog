@@ -59,13 +59,13 @@ div.article-navigation-right {
 }
 
 div.footer-row {
-  margin-top: 20px;
-  margin-bottom: 15px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 div.footer-text {
   text-align: right;
-  margin-top: 20px;
+  margin-top: 15px;
   margin-bottom: 5px;
   font-size: 10px;
   font-style: italic;
@@ -74,10 +74,6 @@ div.footer-text {
 div.sublogo {
   padding-left: 0px;
   text-align: right;
-}
-
-img.sublogo {
-  height: 40px;
 }
 
 div.panel-body {
