@@ -16,6 +16,29 @@
                 {% include 'partials/toc_entry.html' with name='new_article' label='New Article' %}
                 {% include 'partials/toc_entry.html' with name='about' label='About me' %}
             </ul>
+            {% if request.user.is_authenticated %}
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown" data-toggle="dropdown" role="button"
+                       aria-haspopup="true" aria-expanded="false"> Account <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <span class="account-user">User: {{ request.user.first_name|default:request.user.username }}</span>
+                        </li>
+                        <li>
+                            <a href="#" onclick="logout_form.submit();">
+                                <form name="logout_form" action="{% url 'logout' %}" method="POST">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="next" value="{{ logout_target|default:request.path }}">
+                                    Logout
+                                </form>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            {% endif %}
         </div>
     </nav>
 </div>
