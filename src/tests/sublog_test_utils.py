@@ -3,7 +3,6 @@ import difflib
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
-
 from django.test.testcases import TestCase
 
 from src.email import MailSend
@@ -108,3 +107,6 @@ class SublogTestCase(TestCase):
             'content': content
         }
         return self.client.post('/article/draft/', data=post_data, follow=True)
+
+    def get_account_page(self):
+        return self.client.get('/account/')
