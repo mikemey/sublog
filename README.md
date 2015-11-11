@@ -1,6 +1,6 @@
 # SuBlog - a Python blog server
 
-Basic blog server for publishing posts, data stored in local sql lite DB.
+Basic blog server for publishing posts, using django as web framework.
 
 ### Start server
 
