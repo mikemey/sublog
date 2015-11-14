@@ -85,6 +85,16 @@ def get_user_name(response):
     return find_or_none(user_name_re, response)
 
 
+def get_user_first_name(response):
+    # return find_or_none(user_name_re, response)
+    pass
+
+
+def get_user_email(response):
+    # return find_or_none(user_name_re, response)
+    pass
+
+
 def find_or_none(find_re, response):
     search = find_re.search(response.content)
     if search:
