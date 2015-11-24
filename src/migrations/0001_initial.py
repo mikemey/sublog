@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.db import models, migrations
-import markupfield.fields
+from django.db import migrations, models
 import django.utils.timezone
+from django.conf import settings
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
+        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
@@ -16,12 +17,12 @@ class Migration(migrations.Migration):
             name='Article',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('content', markupfield.fields.MarkupField(rendered_field=True)),
                 ('title', models.CharField(default=b'', max_length=500)),
-                ('content_markup_type', models.CharField(default=b'markdown', max_length=30, editable=False, choices=[(b'', b'--'), (b'html', 'HTML'), (b'plain', 'Plain'), (b'markdown', 'Markdown')])),
-                ('_content_rendered', models.TextField(editable=False)),
                 ('pub_date', models.DateTimeField(default=django.utils.timezone.now, verbose_name=b'published')),
                 ('comments_count', models.IntegerField(default=0, verbose_name=b'# of comments')),
+                ('content', models.TextField()),
+                ('rendered', models.TextField()),
+                ('author', models.ForeignKey(related_name='articles', to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.CreateModel(
@@ -32,9 +33,8 @@ class Migration(migrations.Migration):
                 ('user_name', models.CharField(max_length=50)),
                 ('user_email', models.EmailField(max_length=254)),
                 ('pub_date', models.DateTimeField(default=django.utils.timezone.now, verbose_name=b'published')),
-                ('content', markupfield.fields.MarkupField(rendered_field=True)),
-                ('content_markup_type', models.CharField(default=b'markdown', max_length=30, editable=False, choices=[(b'', b'--'), (b'html', 'HTML'), (b'plain', 'Plain'), (b'markdown', 'Markdown')])),
-                ('_content_rendered', models.TextField(editable=False)),
+                ('content', models.TextField()),
+                ('rendered', models.TextField()),
                 ('article', models.ForeignKey(related_name='comments', to='src.Article')),
             ],
         ),
