@@ -10,4 +10,4 @@
 deploy/sublog_variables.sh
 
 # migrations are deployment specific:
-src/migrations
+src/migrations/*

@@ -8,7 +8,7 @@ from django.test.testcases import TestCase
 from src.email import MailSend
 from src.service.mail_gen import send_mail_cache, mck
 
-TEST_FOLDER = '/Users/mmi/github/sublog/assets/test/'
+TEST_FOLDER = '/Users/michael/github/sublog/assets/test/'
 TEST_USER_ID = 't'
 TEST_USER_NAME = 'tester'
 TEST_USER_PW = 'dad_asf'
