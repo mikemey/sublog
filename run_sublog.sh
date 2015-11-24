@@ -8,6 +8,7 @@ else
   kill $H_PID >> /dev/null
 fi
 
+. deploy/sublog_variables.sh
 
 export SECRET_KEY="`date | md5sum`"
 screen -dmS sublog /usr/bin/python manage.py runserver 0.0.0.0:4444
