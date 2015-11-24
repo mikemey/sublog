@@ -1,4 +1,13 @@
 #!/bin/bash
 
-# screen -dmS sublog /usr/bin/python manage.py runserver 0.0.0.0:4444
-python manage.py runserver 0.0.0.0:4444
+H_PID=`ps -ax | grep -e "\ssublog" | sed 's/\s*\([0-9]*\).*/\1/'`
+if [ -z $H_PID ]; then
+  echo "process not found."
+else
+  echo "shutdown process: [$H_PID]"
+  kill $H_PID >> /dev/null
+fi
+
+
+export SECRET_KEY="`date | md5sum`"
+screen -dmS sublog /usr/bin/python manage.py runserver 0.0.0.0:4444
